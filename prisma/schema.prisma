@@ -7,17 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-}
-
-// ========== الأقسام ==========
-enum Department {
-  CREATIVITY              // إدارة الابداع
-  CONTENT_PUBLISHING      // إدارة المحتوى والنشر
-  ACTIVITIES              // إدارة الأنشطة والفعاليات
-  PUBLIC_RELATIONS        // إدارة العلاقات العامة
-  EDUCATIONAL_CONTENT     // إدارة المحتوى التعليمي
-  PROJECTS                // إدارة المشاريع
-  FOLLOW_UP               // إدارة المتابعة والتطوير
+  url      = env("DATABASE_URL")
 }
 
 // ========== 1. إدارة المحتوى والمنشورات ==========
@@ -25,7 +15,7 @@ enum Department {
 model ContentPost {
   id                String      @id @default(uuid())
   publishDate       DateTime    // تاريخ النشر
-  contentType       ContentType // نوع المحتوى
+  contentType       String      // نوع المحتوى: مصادر علمية، عن الفريق، أنشطة وفعاليات، تعليمي، مناسبات
   writer            String      // الكاتب
   captionLinkedIn   String      // Caption LinkedIn
   captionX          String      // Caption X
@@ -33,7 +23,7 @@ model ContentPost {
   designLink        String      // رابط التصميم
   contentAfterReview String     // المحتوى بعد المراجعة
   reviewer          String      // مسؤول المراجعة
-  status            PostStatus  // الحالة
+  status            String      // الحالة: تم النشر، تحت المراجعة، غير مجدي
   
   // تشيك ليست
   publishedLinkedIn Boolean     @default(false)
@@ -48,20 +38,6 @@ model ContentPost {
   @@index([status])
 }
 
-enum ContentType {
-  SCIENTIFIC_SOURCES    // مصادر علمية
-  ABOUT_TEAM           // عن الفريق
-  ACTIVITIES           // أنشطة وفعاليات
-  EDUCATIONAL          // تعليمي
-  OCCASIONS            // مناسبات
-}
-
-enum PostStatus {
-  PUBLISHED            // تم النشر
-  UNDER_REVIEW         // تحت المراجعة
-  NOT_USEFUL          // غير مجدي
-}
-
 // ========== 2. إدارة المتابعة والتطوير ==========
 
 // ورقة 1: متابعة الإدارات
@@ -69,11 +45,11 @@ model DepartmentTask {
   id                String      @id @default(uuid())
   followerMember    String      // العضو المتابع
   task              String      // المهمة
-  responsibleDept   Department  // الإدارة المسؤولة
+  responsibleDept   String      // الإدارة المسؤولة
   responsibleMember String      // العضو المسؤول
   assignDate        DateTime    // تاريخ تعيين المهمة
   deadline          DateTime    // تاريخ الموعد النهائي
-  status            TaskStatus  // الحالة
+  status            String      // الحالة: لم تبدأ، قيد التنفيذ، مكتمل
   notes             String?     // ملاحظات
   
   createdAt         DateTime    @default(now())
@@ -89,10 +65,10 @@ model EventTracking {
   followerMember    String      // العضو المتابع
   eventName         String      // اسم الفعالية
   eventDate         DateTime    // تاريخ الفعالية
-  stage             EventStage  // المرحلة
-  responsibleDept   Department  // الإدارة المسؤولة
+  stage             String      // المرحلة: تصاميم، تسويق ونشر، بحث عن رعاة، تجهيز محتوى مدرب، نشر مشروع
+  responsibleDept   String      // الإدارة المسؤولة
   stageDeadline     DateTime    // الموعد النهائي للمرحلة
-  status            TaskStatus  // الحالة
+  status            String      // الحالة
   
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
@@ -101,24 +77,16 @@ model EventTracking {
   @@index([status])
 }
 
-enum EventStage {
-  DESIGNS              // تصاميم
-  MARKETING            // تسويق ونشر
-  SPONSORS             // بحث عن رعاة
-  TRAINER_CONTENT      // تجهيز محتوى مدرب
-  PROJECT_PUBLISHING   // نشر مشروع
-}
-
 // ورقة 3: تطبيق الانضباط
 model DisciplineRecord {
   id                String      @id @default(uuid())
   followerMember    String      // العضو المتابع
   violatorName      String      // اسم العضو المخالف
   violationDate     DateTime    // تاريخ المخالفة
-  responsibleDept   Department  // الإدارة المسؤولة
+  responsibleDept   String      // الإدارة المسؤولة
   violation         String      // المخالفة
   actionTaken       String      // الاجراء المتخذ
-  status            TaskStatus  // الحالة
+  status            String      // الحالة
   notes             String?     // ملاحظات
   
   createdAt         DateTime    @default(now())
@@ -153,33 +121,15 @@ model CreativeTask {
   driveLink         String?          // رابط الملف في الدرايف
   canvaLink         String?          // رابط كانفا
   deliveryDate      DateTime         // تاريخ التسليم
-  priority          PriorityLevel    // مستوى الأهمية
-  status            CreativeStatus   // الحالة
-  decision          DecisionStatus   // القرار
+  priority          String           // مستوى الأهمية: قادم، عاجل، متوسط
+  status            String           // الحالة: تم التسليم، قيد التنفيذ، لم تبدأ
+  decision          String           // القرار: معتمد، مرفوض، قيد المراجعة
   
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
   
   @@index([deliveryDate])
   @@index([status])
-}
-
-enum PriorityLevel {
-  UPCOMING   // قادم
-  URGENT     // عاجل
-  MEDIUM     // متوسط
-}
-
-enum CreativeStatus {
-  DELIVERED     // تم التسليم
-  IN_PROGRESS   // قيد التنفيذ
-  NOT_STARTED   // لم تبدأ
-}
-
-enum DecisionStatus {
-  APPROVED      // معتمد
-  REJECTED      // مرفوض
-  UNDER_REVIEW  // قيد المراجعة
 }
 
 // ========== 5. إدارة المحتوى التعليمي ==========
@@ -193,20 +143,14 @@ model EducationalContent {
   details         String          // التفاصيل
   deadline        DateTime        // Deadline
   taskLink        String?         // رابط المهمة Canva
-  status          TaskStatus      // الحالة
-  reviewStatus    ReviewStatus    // المراجعة والتدقيق
+  status          String          // الحالة
+  reviewStatus    String          // المراجعة والتدقيق: تمت المراجعة، قيد التنفيذ، لم تبدأ
   
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   
   @@index([deadline])
   @@index([status])
-}
-
-enum ReviewStatus {
-  REVIEWED      // تمت المراجعة
-  IN_PROGRESS   // قيد التنفيذ
-  NOT_STARTED   // لم تبدأ
 }
 
 // ========== 6. إدارة الأنشطة والفعاليات ==========
@@ -222,7 +166,7 @@ model Activity {
   responsibleTeam String         // الفريق المسؤول
   budget          Float?         // الميزانية
   attendees       Int?           // عدد الحضور
-  status          TaskStatus     // الحالة
+  status          String         // الحالة
   notes           String?        // ملاحظات
   
   createdAt       DateTime       @default(now())
@@ -245,7 +189,7 @@ model Project {
   budget          Float?         // الميزانية
   teamMembers     String         // قائمة الأعضاء
   milestones      String         // المراحل الرئيسية
-  status          ProjectStatus  // الحالة
+  status          String         // الحالة: التخطيط، قيد التنفيذ، متوقف مؤقتاً، مكتمل، ملغي
   progress        Int            @default(0) // نسبة الإنجاز %
   
   createdAt       DateTime       @default(now())
@@ -253,14 +197,6 @@ model Project {
   
   @@index([startDate])
   @@index([status])
-}
-
-enum ProjectStatus {
-  PLANNING      // التخطيط
-  IN_PROGRESS   // قيد التنفيذ
-  ON_HOLD       // متوقف مؤقتاً
-  COMPLETED     // مكتمل
-  CANCELLED     // ملغي
 }
 
 // ========== 8. مساحة التعاون المشتركة ==========
@@ -273,7 +209,7 @@ model Collaboration {
   members           String      // الأعضاء المشاركين
   startDate         DateTime    // تاريخ البداية
   deadline          DateTime?   // الموعد النهائي
-  status            TaskStatus  // الحالة
+  status            String      // الحالة
   sharedResources   String?     // الموارد المشتركة
   notes             String?     // ملاحظات
   
@@ -282,14 +218,6 @@ model Collaboration {
   
   @@index([deadline])
   @@index([status])
-}
-
-// ========== Enums المشتركة ==========
-
-enum TaskStatus {
-  NOT_STARTED   // لم تبدأ
-  IN_PROGRESS   // قيد التنفيذ
-  COMPLETED     // مكتمل
 }
 
 // ========== Users for Authentication ==========
@@ -302,17 +230,11 @@ model User {
   firstName     String?
   lastName      String?
   avatarUrl     String?
-  department    Department?
-  role          UserRole    @default(MEMBER)
+  department    String?     // الإدارة
+  role          String      @default("MEMBER") // الدور: ADMIN, LEADER, MEMBER
   
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   
   @@index([email])
-}
-
-enum UserRole {
-  ADMIN    // مدير
-  LEADER   // قائد
-  MEMBER   // عضو
 }

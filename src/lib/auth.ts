@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs'
-import { UserRole } from '@prisma/client'
 
 export class AuthService {
     static async hashPassword(password: string): Promise<string> {
@@ -13,18 +12,18 @@ export class AuthService {
         return bcrypt.compare(plainPassword, hashedPassword)
     }
 
-    static hasPermission(userRole: UserRole, requiredRole: UserRole): boolean {
-        const roleHierarchy: Record<UserRole, number> = {
+    static hasPermission(userRole: string, requiredRole: string): boolean {
+        const roleHierarchy: Record<string, number> = {
             MEMBER: 1,
             LEADER: 2,
             ADMIN: 3,
         }
 
-        return roleHierarchy[userRole] >= roleHierarchy[requiredRole]
+        return (roleHierarchy[userRole] || 0) >= (roleHierarchy[requiredRole] || 0)
     }
 
     static canAccessResource(
-        userRole: UserRole,
+        userRole: string,
         resourceOwnerId: string,
         userId: string
     ): boolean {

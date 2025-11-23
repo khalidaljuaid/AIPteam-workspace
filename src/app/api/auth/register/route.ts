@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { AuthService } from '@/lib/auth'
-import { UserRole } from '@prisma/client'
 
 export async function POST(request: Request) {
     try {
@@ -37,7 +36,7 @@ export async function POST(request: Request) {
                 passwordHash,
                 firstName: firstName || null,
                 lastName: lastName || null,
-                role: role || UserRole.MEMBER,
+                role: role || 'MEMBER',
             },
             select: {
                 id: true,
