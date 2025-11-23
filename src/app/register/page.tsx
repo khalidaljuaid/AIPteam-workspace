@@ -29,13 +29,13 @@ export default function RegisterPage() {
             const data = await res.json()
 
             if (res.ok) {
-                // Redirect to login
-                router.push('/')
+                router.push('/dashboard')
             } else {
-                setError(data.error || 'Registration failed')
+                // Show detailed error if available
+                setError(data.details || data.error || 'فشل إنشاء الحساب')
             }
-        } catch (err) {
-            setError('An error occurred. Please try again.')
+        } catch (err: any) {
+            setError(err.message || 'حدث خطأ. الرجاء المحاولة مرة أخرى.')
         } finally {
             setLoading(false)
         }
