@@ -103,7 +103,7 @@ export default function DashboardPage() {
                     <div className="flex justify-between items-center">
                         <div>
                             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                                نظام إدارة الفريق
+                                AIPioneers Workspace
                             </h1>
                             <p className="text-sm text-muted-foreground">
                                 مرحباً، {user?.name || user?.email}

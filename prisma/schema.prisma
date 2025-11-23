@@ -1,4 +1,4 @@
-// نظام إدارة الفريق العربي - Arabic Team Management System Database Schema
+// AIPioneers Workspace - Database Schema
 // 7 أقسام رئيسية
 
 generator client {

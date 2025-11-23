@@ -1,6 +1,6 @@
-# Team Collaboration Platform
+# AIPioneers Workspace
 
-A modern, professional team collaboration and task management platform built with Next.js, TypeScript, and Prisma. Similar to ClickUp, designed for teams of 70+ members.
+A modern, professional Arabic team collaboration and task management platform built with Next.js, TypeScript, and Prisma.
 
 ## 🚀 Features
 

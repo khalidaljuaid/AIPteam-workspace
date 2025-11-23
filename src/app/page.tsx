@@ -42,7 +42,7 @@ export default function LoginPage() {
       <div className="card w-full max-w-md p-8 space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            نظام إدارة الفريق
+            AIPioneers Workspace
           </h1>
           <p className="text-muted-foreground">
             قم بتسجيل الدخول للوصول إلى لوحة التحكم
