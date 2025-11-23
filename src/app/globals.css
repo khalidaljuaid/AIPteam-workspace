@@ -7,21 +7,51 @@
 @import '@fontsource/tajawal/arabic.css';
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 224 71.4% 4.1%;
-  --primary: 262.1 83.3% 57.8%;
-  --primary-foreground: 210 20% 98%;
-  --muted-foreground: 220 8.9% 46.1%;
-  --border: 220 13% 91%;
-  --success: 142.1 76.2% 36.3%;
+  /* Premium Palette */
+  /* Primary Purple: #80519F -> 276 32% 47% */
+  /* Dark Purple: #351962 -> 263 59% 24% */
+  /* Light Silver: #DEDEDD -> 60 1% 87% */
+
+  --background: 260 20% 98%;
+  /* Very light purple tint */
+  --foreground: 263 59% 15%;
+  /* Dark purple text */
+
+  --primary: 276 32% 47%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 263 59% 24%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 260 10% 96%;
+  --muted-foreground: 260 10% 55%;
+
+  --accent: 282 36% 83%;
+  /* #CCADD9 */
+  --accent-foreground: 263 59% 24%;
+
+  --border: 260 10% 90%;
+  --input: 260 10% 90%;
+
+  /* Custom Gradients */
+  --gradient-primary: linear-gradient(135deg, #3D388C 0%, #25336E 25%, #80519F 50%, #CCADD9 75%, #72CBD7 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .dark {
-  --background: 224 71.4% 4.1%;
-  --foreground: 210 20% 98%;
-  --primary: 263.4 70% 50.4%;
-  --muted-foreground: 217.9 10.6% 64.9%;
-  --border: 215 27.9% 16.9%;
+  --background: 263 59% 10%;
+  --foreground: 0 0% 98%;
+
+  --primary: 276 32% 57%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 263 59% 24%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 263 30% 20%;
+  --muted-foreground: 263 10% 70%;
+
+  --border: 263 30% 20%;
 }
 
 * {
@@ -33,81 +63,120 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   direction: rtl;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(128, 81, 159, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(114, 203, 215, 0.05) 0%, transparent 20%);
 }
 
+/* Glassmorphism Card */
 .card {
-  background-color: white;
-  border-radius: 0.5rem;
-  border: 1px solid hsl(var(--border));
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .dark .card {
-  background-color: hsl(224 71.4% 4.1%);
+  background: rgba(30, 20, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Premium Button */
 .btn-primary {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: opacity 0.2s;
+  background: var(--gradient-primary);
+  background-size: 200% auto;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 15px rgba(128, 81, 159, 0.3);
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(128, 81, 159, 0.4);
 }
 
 .btn-secondary {
-  background-color: hsl(220 14.3% 95.9%);
-  color: hsl(220.9 39.3% 11%);
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: opacity 0.2s;
+  background-color: white;
+  color: #351962;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #E5E7EB;
+  transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-  opacity: 0.8;
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
 }
 
 .input-field {
   display: flex;
-  height: 2.5rem;
+  height: 3rem;
   width: 100%;
-  border-radius: 0.375rem;
+  border-radius: 0.75rem;
   border: 1px solid hsl(var(--border));
-  background-color: white;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
   direction: rtl;
   text-align: right;
-}
-
-.dark .input-field {
-  background-color: hsl(224 71.4% 4.1%);
+  transition: all 0.2s;
 }
 
 .input-field:focus {
-  outline: 2px solid hsl(var(--primary));
-  outline-offset: 2px;
+  outline: none;
+  border-color: #80519F;
+  box-shadow: 0 0 0 4px rgba(128, 81, 159, 0.1);
+  background-color: white;
 }
 
+/* Department Card - Premium */
 .dept-card {
-  background-color: white;
-  border-radius: 0.5rem;
-  border: 1px solid hsl(var(--border));
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  background: white;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
   cursor: pointer;
-  transition: all 0.2s;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dept-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .dept-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.dept-card:hover::before {
+  opacity: 1;
+}
+
+/* Text Gradient Utility */
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .table-rtl {
@@ -117,11 +186,14 @@ body {
 
 .table-rtl th {
   text-align: right;
-  padding: 0.75rem;
+  padding: 1rem;
   font-weight: 600;
+  color: #351962;
+  background-color: rgba(128, 81, 159, 0.05);
 }
 
 .table-rtl td {
   text-align: right;
-  padding: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
