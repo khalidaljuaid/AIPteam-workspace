@@ -86,7 +86,7 @@ export default function DashboardPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center" dir="rtl">
+            <div className="flex items-center justify-center h-full min-h-[400px]" dir="rtl">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
                     <p className="mt-4 text-muted-foreground">جاري التحميل...</p>
@@ -96,156 +96,107 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900" dir="rtl">
-            {/* Header */}
-            <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                                AIPioneers Workspace
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                مرحباً، {user?.name || user?.email}
-                            </p>
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            {/* Debug Info */}
-                            <div className="text-xs text-left bg-gray-100 p-1 rounded">
-                                Role: {user?.role || 'None'}
-                            </div>
-
-                            {user?.role === 'ADMIN' && (
-                                <a
-                                    href="/dashboard/users"
-                                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
-                                >
-                                    إدارة المستخدمين
-                                </a>
-                            )}
-                            <div className="text-left">
-                                <p className="text-sm font-medium">{user?.email}</p>
-                                <p className="text-xs font-mono text-purple-600 bg-purple-100 px-1 rounded inline-block mt-1">
-                                    {user?.role}
-                                </p>
-                                {user?.department && (
-                                    <p className="text-xs text-muted-foreground">
-                                        {user.department}
-                                    </p>
-                                )}
-                            </div>
-                            <button
-                                onClick={handleLogout}
-                                className="btn-secondary text-sm"
-                            >
-                                تسجيل الخروج
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-8">
+        <div className="space-y-8" dir="rtl">
+            <div className="flex justify-between items-center">
+                <div>
                     <h2 className="text-3xl font-bold mb-2">الأقسام</h2>
                     <p className="text-muted-foreground">
                         اختر القسم للوصول إلى البيانات والمهام
                     </p>
                 </div>
+            </div>
 
-                {/* الأقسام السبعة */}
-                {/* الأقسام */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    {/* Executive Card - Only for Admins */}
-                    {user?.role === 'ADMIN' && (
-                        <a
-                            href="/departments/executive"
-                            className="dept-card group border-2 border-yellow-400 bg-yellow-50/50 dark:bg-yellow-900/10"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-lg">
-                                    👑
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-lg font-bold mb-1 text-yellow-800 dark:text-yellow-500">الإدارة التنفيذية</h3>
-                                    <p className="text-sm text-muted-foreground">
-                                        لوحة التحكم الشاملة
-                                    </p>
-                                </div>
+            {/* الأقسام السبعة */}
+            {/* الأقسام */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {/* Executive Card - Only for Admins */}
+                {user?.role === 'ADMIN' && (
+                    <a
+                        href="/departments/executive"
+                        className="dept-card group border-2 border-yellow-400 bg-yellow-50/50 dark:bg-yellow-900/10"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-lg">
+                                👑
                             </div>
-                        </a>
-                    )}
-
-                    {departments.filter(dept => {
-                        // Admin sees everything
-                        if (user?.role === 'ADMIN') return true;
-
-                        // Member/Leader sees only their department
-                        // Map department IDs to enum values stored in DB
-                        const deptMapping: Record<string, string> = {
-                            'content': 'CONTENT_PUBLISHING',
-                            'followup': 'FOLLOW_UP',
-                            'public-relations': 'PUBLIC_RELATIONS',
-                            'creativity': 'CREATIVITY',
-                            'educational': 'EDUCATIONAL_CONTENT',
-                            'activities': 'ACTIVITIES',
-                            'projects': 'PROJECTS'
-                        };
-
-                        // If user has no department assigned, maybe show nothing or show all? 
-                        // Requirement: "every member or leader has access only to his department"
-                        // So if no department, show nothing (or maybe a message).
-                        if (!user?.department) return false;
-
-                        return deptMapping[dept.id] === user.department;
-                    }).map((dept) => (
-                        <a
-                            key={dept.id}
-                            href={dept.link}
-                            className="dept-card group"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform`}>
-                                    {dept.icon}
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="text-lg font-bold mb-1">{dept.name}</h3>
-                                    <p className="text-sm text-muted-foreground">
-                                        انقر للدخول →
-                                    </p>
-                                </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-bold mb-1 text-yellow-800 dark:text-yellow-500">الإدارة التنفيذية</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    لوحة التحكم الشاملة
+                                </p>
                             </div>
-                        </a>
-                    ))}
-                </div>
-
-                {/* Show message if no departments visible (e.g. new member with no dept) */}
-                {user?.role !== 'ADMIN' && !user?.department && (
-                    <div className="text-center p-12 bg-gray-50 rounded-xl border-2 border-dashed">
-                        <p className="text-lg text-muted-foreground">
-                            لم يتم تعيينك لأي قسم بعد. يرجى التواصل مع الإدارة.
-                        </p>
-                    </div>
+                        </div>
+                    </a>
                 )}
 
-                {/* قسم التعاون المشترك */}
-                <div className="card p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl">
-                            🔗
+                {departments.filter(dept => {
+                    // Admin sees everything
+                    if (user?.role === 'ADMIN') return true;
+
+                    // Member/Leader sees only their department
+                    // Map department IDs to enum values stored in DB
+                    const deptMapping: Record<string, string> = {
+                        'content': 'CONTENT_PUBLISHING',
+                        'followup': 'FOLLOW_UP',
+                        'public-relations': 'PUBLIC_RELATIONS',
+                        'creativity': 'CREATIVITY',
+                        'educational': 'EDUCATIONAL_CONTENT',
+                        'activities': 'ACTIVITIES',
+                        'projects': 'PROJECTS'
+                    };
+
+                    // If user has no department assigned, maybe show nothing or show all? 
+                    // Requirement: "every member or leader has access only to his department"
+                    // So if no department, show nothing (or maybe a message).
+                    if (!user?.department) return false;
+
+                    return deptMapping[dept.id] === user.department;
+                }).map((dept) => (
+                    <a
+                        key={dept.id}
+                        href={dept.link}
+                        className="dept-card group"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform`}>
+                                {dept.icon}
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-bold mb-1">{dept.name}</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    انقر للدخول →
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="text-xl font-bold">مساحة التعاون المشتركة</h3>
-                            <p className="text-sm text-muted-foreground">
-                                للمهام التي تتطلب تعاون بين عدة أقسام
-                            </p>
-                        </div>
-                    </div>
-                    <a href="/collaboration" className="btn-primary inline-block">
-                        عرض المهام المشتركة
                     </a>
+                ))}
+            </div>
+
+            {/* Show message if no departments visible (e.g. new member with no dept) */}
+            {user?.role !== 'ADMIN' && !user?.department && (
+                <div className="text-center p-12 bg-gray-50 rounded-xl border-2 border-dashed">
+                    <p className="text-lg text-muted-foreground">
+                        لم يتم تعيينك لأي قسم بعد. يرجى التواصل مع الإدارة.
+                    </p>
                 </div>
+            )}
+
+            {/* قسم التعاون المشترك */}
+            <div className="card p-6">
+                <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl">
+                        🔗
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-bold">مساحة التعاون المشتركة</h3>
+                        <p className="text-sm text-muted-foreground">
+                            للمهام التي تتطلب تعاون بين عدة أقسام
+                        </p>
+                    </div>
+                </div>
+                <a href="/collaboration" className="btn-primary inline-block">
+                    عرض المهام المشتركة
+                </a>
             </div>
         </div>
     )
