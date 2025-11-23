@@ -111,6 +111,14 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="flex items-center gap-4">
+                            {user?.role === 'ADMIN' && (
+                                <a
+                                    href="/dashboard/users"
+                                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                                >
+                                    إدارة المستخدمين
+                                </a>
+                            )}
                             <div className="text-left">
                                 <p className="text-sm font-medium">{user?.email}</p>
                                 {user?.department && (
