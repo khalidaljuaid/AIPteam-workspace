@@ -41,10 +41,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex w-full" dir="rtl">
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white dark:bg-gray-900 relative overflow-hidden">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[#151521] relative overflow-hidden border-l border-white/5">
         {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-blue-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
         <div className="w-full max-w-md space-y-8 relative z-10">
           <div className="text-center space-y-2">
@@ -54,28 +54,28 @@ export default function LoginPage() {
                   src="/logo.png"
                   alt="AIPioneers Logo"
                   fill
-                  className="object-contain drop-shadow-xl"
+                  className="object-contain drop-shadow-xl brightness-0 invert" // White logo
                   priority
                 />
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-[#351962]">
+            <h1 className="text-3xl font-bold text-white">
               مرحباً بعودتك 👋
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-gray-400">
               قم بتسجيل الدخول لمتابعة أعمالك في AIPioneers
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             {error && (
-              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm border border-red-100 flex items-center gap-2">
+              <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl text-sm border border-red-500/20 flex items-center gap-2">
                 ⚠️ {error}
               </div>
             )}
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-semibold text-[#351962]">
+              <label htmlFor="email" className="text-sm font-semibold text-gray-300">
                 البريد الإلكتروني
               </label>
               <input
@@ -83,7 +83,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                 placeholder="name@aipioneers.com"
                 required
               />
@@ -91,17 +91,17 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <label htmlFor="password" className="text-sm font-semibold text-[#351962]">
+                <label htmlFor="password" className="text-sm font-semibold text-gray-300">
                   كلمة المرور
                 </label>
-                <a href="#" className="text-xs text-primary hover:underline">نسيت كلمة المرور؟</a>
+                <a href="#" className="text-xs text-[#009EF7] hover:text-[#009EF7]/80 hover:underline">نسيت كلمة المرور؟</a>
               </div>
               <input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                 placeholder="••••••••"
                 required
               />
@@ -110,7 +110,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full shadow-lg shadow-purple-200 hover:shadow-purple-300 transform hover:-translate-y-1 transition-all duration-200"
+              className="w-full bg-[#009EF7] hover:bg-[#0095E8] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200 transform hover:-translate-y-1"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -121,10 +121,10 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="text-center text-sm text-muted-foreground pt-4">
+          <div className="text-center text-sm text-gray-500 pt-4">
             <p>
               ليس لديك حساب؟{' '}
-              <a href="/register" className="text-primary font-bold hover:underline">
+              <a href="/register" className="text-[#009EF7] font-bold hover:underline">
                 انضم للفريق
               </a>
             </p>

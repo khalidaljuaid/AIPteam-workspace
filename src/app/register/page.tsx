@@ -49,10 +49,10 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen flex w-full" dir="rtl">
             {/* Right Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white dark:bg-gray-900 relative overflow-hidden">
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[#151521] relative overflow-hidden border-l border-white/5">
                 {/* Decorative Background Elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-purple-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+                <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-blue-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
                 <div className="w-full max-w-md space-y-6 relative z-10">
                     <div className="text-center space-y-2">
@@ -62,79 +62,79 @@ export default function RegisterPage() {
                                     src="/logo.png"
                                     alt="AIPioneers Logo"
                                     fill
-                                    className="object-contain drop-shadow-xl"
+                                    className="object-contain drop-shadow-xl brightness-0 invert" // White logo
                                 />
                             </div>
                         </div>
-                        <h1 className="text-2xl font-bold text-[#351962]">
+                        <h1 className="text-2xl font-bold text-white">
                             انضم إلى فريق المبدعين 🚀
                         </h1>
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-gray-400 text-sm">
                             أنشئ حسابك الجديد في AIPioneers Workspace
                         </p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {error && (
-                            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm border border-red-100 flex items-center gap-2">
+                            <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl text-sm border border-red-500/20 flex items-center gap-2">
                                 ⚠️ {error}
                             </div>
                         )}
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-[#351962]">الاسم الأول</label>
+                                <label className="text-sm font-semibold text-gray-300">الاسم الأول</label>
                                 <input
                                     type="text"
                                     value={formData.firstName}
                                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                    className="input-field"
+                                    className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                                     required
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-[#351962]">اسم العائلة</label>
+                                <label className="text-sm font-semibold text-gray-300">اسم العائلة</label>
                                 <input
                                     type="text"
                                     value={formData.lastName}
                                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                    className="input-field"
+                                    className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                                     required
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-[#351962]">اسم المستخدم (للعرض)</label>
+                            <label className="text-sm font-semibold text-gray-300">اسم المستخدم (للعرض)</label>
                             <input
                                 type="text"
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                className="input-field"
+                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                                 placeholder="مثال: أحمد محمد"
                                 required
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-[#351962]">البريد الإلكتروني</label>
+                            <label className="text-sm font-semibold text-gray-300">البريد الإلكتروني</label>
                             <input
                                 type="email"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="input-field"
+                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                                 placeholder="name@example.com"
                                 required
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-[#351962]">كلمة المرور</label>
+                            <label className="text-sm font-semibold text-gray-300">كلمة المرور</label>
                             <input
                                 type="password"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                className="input-field"
+                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
                                 placeholder="••••••••"
                                 required
                                 minLength={6}
@@ -144,7 +144,7 @@ export default function RegisterPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full shadow-lg shadow-purple-200 hover:shadow-purple-300 transform hover:-translate-y-1 transition-all duration-200 mt-4"
+                            className="w-full bg-[#009EF7] hover:bg-[#0095E8] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200 transform hover:-translate-y-1 mt-4"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center gap-2">
@@ -155,10 +155,10 @@ export default function RegisterPage() {
                         </button>
                     </form>
 
-                    <div className="text-center text-sm text-muted-foreground pt-2">
+                    <div className="text-center text-sm text-gray-500 pt-2">
                         <p>
                             لديك حساب بالفعل؟{' '}
-                            <a href="/" className="text-primary font-bold hover:underline">
+                            <a href="/" className="text-[#009EF7] font-bold hover:underline">
                                 تسجيل الدخول
                             </a>
                         </p>
