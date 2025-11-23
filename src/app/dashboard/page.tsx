@@ -111,6 +111,11 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="flex items-center gap-4">
+                            {/* Debug Info */}
+                            <div className="hidden md:block text-xs text-left bg-gray-100 p-1 rounded">
+                                Role: {user?.role || 'None'}
+                            </div>
+
                             {user?.role === 'ADMIN' && (
                                 <a
                                     href="/dashboard/users"
@@ -121,6 +126,9 @@ export default function DashboardPage() {
                             )}
                             <div className="text-left">
                                 <p className="text-sm font-medium">{user?.email}</p>
+                                <p className="text-xs font-mono text-purple-600 bg-purple-100 px-1 rounded inline-block mt-1">
+                                    {user?.role}
+                                </p>
                                 {user?.department && (
                                     <p className="text-xs text-muted-foreground">
                                         {user.department}
