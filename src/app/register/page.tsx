@@ -32,7 +32,9 @@ export default function RegisterPage() {
                 router.push('/dashboard')
             } else {
                 // Show detailed error if available
-                setError(data.details || data.error || 'فشل إنشاء الحساب')
+                const errorMsg = data.details || data.error || 'فشل إنشاء الحساب';
+                const debugInfo = data.debug ? ` (${data.debug})` : '';
+                setError(errorMsg + debugInfo);
             }
         } catch (err: any) {
             setError(err.message || 'حدث خطأ. الرجاء المحاولة مرة أخرى.')
