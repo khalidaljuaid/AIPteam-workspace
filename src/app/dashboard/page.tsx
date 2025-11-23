@@ -99,8 +99,8 @@ export default function DashboardPage() {
         <div className="space-y-8" dir="rtl">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-3xl font-bold mb-2">الأقسام</h2>
-                    <p className="text-muted-foreground">
+                    <h2 className="text-2xl font-bold text-[#1E1E2D] mb-1">نظرة عامة على الأقسام</h2>
+                    <p className="text-gray-500 text-sm">
                         اختر القسم للوصول إلى البيانات والمهام
                     </p>
                 </div>
@@ -151,24 +151,26 @@ export default function DashboardPage() {
                     if (!user?.department) return false;
 
                     return deptMapping[dept.id] === user.department;
-                }).map((dept) => (
-                    <a
-                        key={dept.id}
-                        href={dept.link}
-                        className="dept-card group"
-                    >
-                        <div className="flex items-center gap-4">
-                            <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform`}>
-                                {dept.icon}
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-lg font-bold mb-1">{dept.name}</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    انقر للدخول →
-                                </p>
-                            </div>
+                }).map((dept) => <a
+                    key={dept.id}
+                    href={dept.link}
+                    className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-dashed border-gray-200 hover:border-purple-200 group"
+                >
+                    <div className="flex items-center gap-5">
+                        <div className={`h-14 w-14 rounded-lg bg-gray-50 flex items-center justify-center text-2xl group-hover:bg-[#351962] group-hover:text-white transition-colors duration-200`}>
+                            {dept.icon}
                         </div>
-                    </a>
+                        <div className="flex-1">
+                            <h3 className="text-lg font-bold text-[#1E1E2D] mb-1">{dept.name}</h3>
+                            <p className="text-xs text-gray-400 font-medium">
+                                انقر للدخول
+                            </p>
+                        </div>
+                        <div className="text-gray-300">
+                            ←
+                        </div>
+                    </div>
+                </a>
                 ))}
             </div>
 

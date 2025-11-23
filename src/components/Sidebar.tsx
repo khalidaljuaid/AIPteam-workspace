@@ -20,51 +20,50 @@ export default function Sidebar({ user }: { user: any }) {
     }
 
     return (
-        <aside className="fixed right-0 top-0 h-screen w-72 bg-white dark:bg-[#111c44] border-l border-gray-100 dark:border-gray-800 z-50 transition-all duration-300 hidden lg:block">
+        <aside className="fixed right-0 top-0 h-screen w-72 bg-[#1E1E2D] text-white z-50 transition-all duration-300 hidden lg:flex flex-col shadow-xl">
             {/* Logo Area */}
-            <div className="h-24 flex items-center justify-center border-b border-gray-50 dark:border-gray-800 mb-6">
-                <div className="relative w-40 h-12">
+            <div className="h-20 flex items-center justify-center border-b border-white/10 mb-2">
+                <div className="relative w-32 h-10">
                     <Image
                         src="/logo.png"
                         alt="Logo"
                         fill
-                        className="object-contain"
+                        className="object-contain brightness-0 invert" // Make logo white for dark sidebar
                     />
                 </div>
             </div>
 
             {/* Nav Links */}
-            <nav className="px-4 space-y-2">
+            <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto custom-scrollbar">
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-4">القائمة الرئيسية</div>
                 {links.map((link) => {
                     const isActive = pathname === link.href
                     return (
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${isActive
-                                    ? 'bg-[#351962] text-white shadow-lg shadow-purple-200'
-                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5'
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium ${isActive
+                                    ? 'bg-[#351962] text-white' // Active: Brand Purple
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
-                            <span className="text-xl">{link.icon}</span>
+                            <span className="text-lg opacity-80">{link.icon}</span>
                             <span>{link.name}</span>
                         </Link>
                     )
                 })}
             </nav>
 
-            {/* User Profile Mini */}
-            <div className="absolute bottom-8 right-0 left-0 px-4">
-                <div className="bg-gradient-to-br from-[#80519F] to-[#351962] rounded-2xl p-4 text-white text-center relative overflow-hidden">
-                    <div className="relative z-10">
-                        <div className="w-12 h-12 bg-white/20 rounded-full mx-auto mb-3 flex items-center justify-center text-xl backdrop-blur-sm">
-                            👤
-                        </div>
-                        <h4 className="font-bold text-sm truncate">{user?.firstName} {user?.lastName}</h4>
-                        <p className="text-xs text-purple-200 mt-1">{user?.role}</p>
+            {/* User Profile Mini (Metronic Footer Style) */}
+            <div className="p-4 border-t border-white/10 bg-[#151521]">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-[#351962] flex items-center justify-center text-white font-bold text-lg">
+                        {user?.firstName?.[0] || 'U'}
                     </div>
-                    {/* Decor */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 blur-xl"></div>
+                    <div className="overflow-hidden">
+                        <h4 className="font-bold text-sm text-white truncate">{user?.firstName} {user?.lastName}</h4>
+                        <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                    </div>
                 </div>
             </div>
         </aside>

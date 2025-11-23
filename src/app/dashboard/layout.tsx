@@ -27,7 +27,7 @@ export default function DashboardLayout({
     if (loading) return null
 
     return (
-        <div className="min-h-screen bg-[#F4F7FE] dark:bg-[#0b1437] flex" dir="rtl">
+        <div className="min-h-screen bg-[#F5F8FA] flex" dir="rtl">
             {/* Sidebar */}
             <Sidebar user={user} />
 
