@@ -2,7 +2,13 @@ import { PrismaClient } from '@prisma/client'
 
 // Prisma Client Singleton
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient({
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
+  })
 }
 
 declare const globalThis: {
