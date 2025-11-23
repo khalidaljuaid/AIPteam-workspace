@@ -55,10 +55,14 @@ export async function POST(request: Request) {
             },
             { status: 201 }
         )
-    } catch (error) {
+    } catch (error: any) {
         console.error('Registration error:', error)
         return NextResponse.json(
-            { error: 'Internal server error' },
+            {
+                error: 'Registration failed',
+                details: error.message,
+                stack: error.stack
+            },
             { status: 500 }
         )
     }
