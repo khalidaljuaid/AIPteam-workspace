@@ -1,36 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Team Collaboration Platform
 
-## Getting Started
+A modern, professional team collaboration and task management platform built with Next.js, TypeScript, and Prisma. Similar to ClickUp, designed for teams of 70+ members.
 
-First, run the development server:
+## 🚀 Features
+
+- **Role-Based Access Control**: 4 user roles (Member, Leader, Vice President, President)
+- **Task Management**: Create, assign, track, and manage tasks with priorities
+- **Team Organization**: Organize members into teams/departments
+- **Project Management**: Group tasks into projects
+- **Rankings System**: Assess and track team member performance
+- **Activity Logging**: Complete audit trail of all actions
+- **Modern UI**: Glassmorphism design with dark mode support
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Database**: SQLite (via Prisma ORM)
+- **Authentication**: Custom JWT-based auth with bcrypt
+- **Styling**: Tailwind CSS with custom design system
+- **UI**: React 19 with modern hooks
+
+## 📦 Installation
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd team-workspace
+
+# Install dependencies
+npm install
+
+# Set up the database
+npx prisma migrate dev
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗄️ Database Schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Users**: Email, role, team membership
+- **Teams**: Department organization
+- **Projects**: Task grouping
+- **Tasks**: Full CRUD with assignments, status, priority
+- **Comments**: Task discussions
+- **Rankings**: Performance assessments
+- **ActivityLog**: Audit trail
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔑 API Endpoints
 
-## Learn More
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
 
-To learn more about Next.js, take a look at the following resources:
+### Users
+- `GET /api/users` - List all users
+- `POST /api/users` - Create user (admin)
+- `GET /api/users/[id]` - Get user details
+- `PUT /api/users/[id]` - Update user
+- `DELETE /api/users/[id]` - Delete user
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Tasks
+- `GET /api/tasks` - List/filter tasks
+- `POST /api/tasks` - Create task
+- `GET /api/tasks/[id]` - Get task details
+- `PUT /api/tasks/[id]` - Update task
+- `DELETE /api/tasks/[id]` - Delete task
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Projects
+- `GET /api/projects` - List projects
+- `POST /api/projects` - Create project
 
-## Deploy on Vercel
+### Teams
+- `GET /api/teams` - List teams
+- `POST /api/teams` - Create team
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Rankings
+- `GET /api/rankings` - Get rankings (filtered)
+- `POST /api/rankings` - Create assessment
+- `GET /api/rankings/leaderboard` - Get leaderboard
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Data Import
+- `POST /api/import` - Import users/tasks from Google Sheets
+
+## 👥 Role Permissions
+
+| Action | Member | Leader | VP | President |
+|--------|--------|--------|----|-----------|
+| View own tasks | ✅ | ✅ | ✅ | ✅ |
+| Create tasks | ✅ | ✅ | ✅ | ✅ |
+| Edit team tasks | ❌ | ✅ | ✅ | ✅ |
+| Delete tasks | ❌ | ✅ | ✅ | ✅ |
+| Manage rankings | ❌ | ✅ | ✅ | ✅ |
+| User management | ❌ | ❌ | ✅ | ✅ |
+| System settings | ❌ | ❌ | ❌ | ✅ |
+
+## 📱 Pages
+
+- **/** - Login page
+- **/register** - User registration
+- **/dashboard** - Main dashboard with:
+  - Task overview cards
+  - Task management tab
+  - Team members tab
+  - Rankings/leaderboard tab
+
+## 🎨 Design System
+
+- Modern glassmorphism with gradients
+- Purple/blue color scheme
+- Light and dark mode support
+- Responsive design for all devices
+- Smooth animations and transitions
+
+## 🔐 Security
+
+- Passwords hashed with bcrypt (10 rounds)
+- Role-based access control
+- Activity logging for audit trail
+- Input validation on all endpoints
+
+## 📊 Data Migration
+
+Import data from Google Sheets using:
+
+```bash
+POST /api/import
+{
+  "users": [...],
+  "tasks": [...]
+}
+```
+
+## 🚀 Deployment
+
+### Free Options:
+1. **Vercel** (Recommended)
+   - Push to GitHub
+   - Connect to Vercel
+   - Auto-deployed
+
+2. **Railway/Render**
+   - For PostgreSQL database
+   - Easy deployment
+
+## 📝 Environment Variables
+
+Create `.env` file:
+
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📄 License
+
+MIT License - feel free to use this project!
+
+## 🎯 Future Enhancements
+
+- [ ] Real-time notifications
+- [ ] File attachments on tasks
+- [ ] Calendar integration
+- [ ] Advanced analytics dashboard
+- [ ] Mobile app
+- [ ] Email notifications
+- [ ] Slack/Teams integration
+
+## 👨‍💻 Development
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Lint code
+npm run lint
+```
+
+## 📞 Support
+
+For issues and questions, please open an issue on GitHub.
+
+---
+
+**Built with ❤️ for modern teams**
