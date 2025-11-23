@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   /* config options here */
   // Triggering redeploy for premium design
   images: {
-    domains: ['lh3.googleusercontent.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '**',
       },
     ],
   },
