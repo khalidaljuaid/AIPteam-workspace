@@ -2,9 +2,11 @@ import { PrismaClient } from '@prisma/client'
 
 // Prisma Client Singleton
 const prismaClientSingleton = () => {
-  const url = process.env.DATABASE_URL;
+  // Try POSTGRES_URL first, then DATABASE_URL
+  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
   if (!url) {
-    console.error('DATABASE_URL is missing in prisma.ts');
+    console.error('Database URL is missing');
   }
 
   return new PrismaClient({

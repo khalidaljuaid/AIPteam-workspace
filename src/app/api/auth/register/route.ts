@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     } catch (error: any) {
         console.error('Registration error:', error)
         // Safe debug info
-        const dbUrl = process.env.DATABASE_URL || 'undefined';
+        const dbUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL || 'undefined';
         const safeDbUrl = dbUrl === 'undefined' ? 'undefined' : `${dbUrl.substring(0, 15)}...`;
 
         return NextResponse.json(
