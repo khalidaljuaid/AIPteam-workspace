@@ -99,8 +99,8 @@ export default function DashboardPage() {
         <div className="space-y-8" dir="rtl">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold text-[#1E1E2D] mb-1">نظرة عامة على الأقسام</h2>
-                    <p className="text-gray-500 text-sm">
+                    <h2 className="text-2xl font-bold text-white mb-1">نظرة عامة على الأقسام</h2>
+                    <p className="text-gray-400 text-sm">
                         اختر القسم للوصول إلى البيانات والمهام
                     </p>
                 </div>
