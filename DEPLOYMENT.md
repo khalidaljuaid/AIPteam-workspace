@@ -142,6 +142,17 @@ git push
 # That's it! Vercel auto-deploys
 ```
 
+## 🔗 How to Share Your Website
+Once deployed, Vercel gives you a permanent link.
+
+1. **Go to your Vercel Dashboard**: https://vercel.com/dashboard
+2. Click on your project (`team-workspace` or similar).
+3. Under **"Domains"**, you will see your live link.
+   - It usually looks like: `https://team-workspace-xyz.vercel.app`
+4. **Copy this link** and send it to your team!
+
+**Tip:** You can also buy a custom domain (like `aipioneers.com`) and connect it for free in Vercel Settings → Domains.
+
 ## First Time Setup After Deploy
 
 1. Visit your live site

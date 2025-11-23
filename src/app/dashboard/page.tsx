@@ -112,7 +112,7 @@ export default function DashboardPage() {
 
                         <div className="flex items-center gap-4">
                             {/* Debug Info */}
-                            <div className="hidden md:block text-xs text-left bg-gray-100 p-1 rounded">
+                            <div className="text-xs text-left bg-gray-100 p-1 rounded">
                                 Role: {user?.role || 'None'}
                             </div>
 
