@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* استيراد الخطوط العربية */
+@import '@fontsource/cairo/arabic.css';
+@import '@fontsource/tajawal/arabic.css';
+
 :root {
   --background: 0 0% 100%;
   --foreground: 224 71.4% 4.1%;
@@ -22,11 +26,14 @@
 
 * {
   border-color: hsl(var(--border));
+  font-family: 'Cairo', 'Tajawal', sans-serif;
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  direction: rtl;
+  /* اتجاه من اليمين لليسار */
 }
 
 .card {
@@ -75,6 +82,8 @@ body {
   background-color: white;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
+  direction: rtl;
+  text-align: right;
 }
 
 .dark .input-field {
@@ -84,4 +93,31 @@ body {
 .input-field:focus {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
+}
+
+/* بطاقات الأقسام */
+.dept-card {
+  @apply card p-6 hover:shadow-xl transition-all cursor-pointer;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+.dept-card:hover {
+  transform: translateY(-4px);
+}
+
+/* الجداول */
+.table-rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.table-rtl th {
+  text-align: right;
+  padding: 0.75rem;
+  font-weight: 600;
+}
+
+.table-rtl td {
+  text-align: right;
+  padding: 0.75rem;
 }

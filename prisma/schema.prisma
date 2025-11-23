@@ -1,5 +1,5 @@
-// Team Collaboration Platform Database Schema
-// Supports 70+ users with role-based access control
+// نظام إدارة الفريق العربي - Arabic Team Management System Database Schema
+// 7 أقسام رئيسية
 
 generator client {
   provider = "prisma-client-js"
@@ -9,176 +9,307 @@ datasource db {
   provider = "sqlite"
 }
 
-
-// User Roles: member, leader, vice_president, president
-enum UserRole {
-  MEMBER
-  LEADER
-  VICE_PRESIDENT
-  PRESIDENT
+// ========== الأقسام ==========
+enum Department {
+  CREATIVITY              // إدارة الابداع
+  CONTENT_PUBLISHING      // إدارة المحتوى والنشر
+  ACTIVITIES              // إدارة الأنشطة والفعاليات
+  PUBLIC_RELATIONS        // إدارة العلاقات العامة
+  EDUCATIONAL_CONTENT     // إدارة المحتوى التعليمي
+  PROJECTS                // إدارة المشاريع
+  FOLLOW_UP               // إدارة المتابعة والتطوير
 }
 
-// Task Status
+// ========== 1. إدارة المحتوى والمنشورات ==========
+
+model ContentPost {
+  id                String      @id @default(uuid())
+  publishDate       DateTime    // تاريخ النشر
+  contentType       ContentType // نوع المحتوى
+  writer            String      // الكاتب
+  captionLinkedIn   String      // Caption LinkedIn
+  captionX          String      // Caption X
+  captionInstagram  String      // Caption Instagram/TikTok
+  designLink        String      // رابط التصميم
+  contentAfterReview String     // المحتوى بعد المراجعة
+  reviewer          String      // مسؤول المراجعة
+  status            PostStatus  // الحالة
+  
+  // تشيك ليست
+  publishedLinkedIn Boolean     @default(false)
+  publishedX        Boolean     @default(false)
+  publishedInstagram Boolean    @default(false)
+  publishedTikTok   Boolean     @default(false)
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([publishDate])
+  @@index([status])
+}
+
+enum ContentType {
+  SCIENTIFIC_SOURCES    // مصادر علمية
+  ABOUT_TEAM           // عن الفريق
+  ACTIVITIES           // أنشطة وفعاليات
+  EDUCATIONAL          // تعليمي
+  OCCASIONS            // مناسبات
+}
+
+enum PostStatus {
+  PUBLISHED            // تم النشر
+  UNDER_REVIEW         // تحت المراجعة
+  NOT_USEFUL          // غير مجدي
+}
+
+// ========== 2. إدارة المتابعة والتطوير ==========
+
+// ورقة 1: متابعة الإدارات
+model DepartmentTask {
+  id                String      @id @default(uuid())
+  followerMember    String      // العضو المتابع
+  task              String      // المهمة
+  responsibleDept   Department  // الإدارة المسؤولة
+  responsibleMember String      // العضو المسؤول
+  assignDate        DateTime    // تاريخ تعيين المهمة
+  deadline          DateTime    // تاريخ الموعد النهائي
+  status            TaskStatus  // الحالة
+  notes             String?     // ملاحظات
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([deadline])
+  @@index([status])
+}
+
+// ورقة 2: متابعة الفعاليات
+model EventTracking {
+  id                String      @id @default(uuid())
+  followerMember    String      // العضو المتابع
+  eventName         String      // اسم الفعالية
+  eventDate         DateTime    // تاريخ الفعالية
+  stage             EventStage  // المرحلة
+  responsibleDept   Department  // الإدارة المسؤولة
+  stageDeadline     DateTime    // الموعد النهائي للمرحلة
+  status            TaskStatus  // الحالة
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([eventDate])
+  @@index([status])
+}
+
+enum EventStage {
+  DESIGNS              // تصاميم
+  MARKETING            // تسويق ونشر
+  SPONSORS             // بحث عن رعاة
+  TRAINER_CONTENT      // تجهيز محتوى مدرب
+  PROJECT_PUBLISHING   // نشر مشروع
+}
+
+// ورقة 3: تطبيق الانضباط
+model DisciplineRecord {
+  id                String      @id @default(uuid())
+  followerMember    String      // العضو المتابع
+  violatorName      String      // اسم العضو المخالف
+  violationDate     DateTime    // تاريخ المخالفة
+  responsibleDept   Department  // الإدارة المسؤولة
+  violation         String      // المخالفة
+  actionTaken       String      // الاجراء المتخذ
+  status            TaskStatus  // الحالة
+  notes             String?     // ملاحظات
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([violationDate])
+}
+
+// ========== 3. إدارة العلاقات العامة ==========
+
+model Sponsor {
+  id                String   @id @default(uuid())
+  sponsorName       String   // اسم الراعي
+  sponsorshipType   String   // نوع الرعاية
+  service           String   // الخدمة
+  relatedEvent      String   // اسم الفعالية المرتبطة
+  sponsorAccounts   String   // حسابات الراعي
+  requirements      String   // متطلبات الراعي
+  responsibleMember String   // اسم العضو المسؤول
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// ========== 4. إدارة الإبداع ==========
+
+model CreativeTask {
+  id                String           @id @default(uuid())
+  memberName        String           // اسم العضو
+  task              String           // المهمة
+  textualContent    String?          // المحتوى النصي
+  driveLink         String?          // رابط الملف في الدرايف
+  canvaLink         String?          // رابط كانفا
+  deliveryDate      DateTime         // تاريخ التسليم
+  priority          PriorityLevel    // مستوى الأهمية
+  status            CreativeStatus   // الحالة
+  decision          DecisionStatus   // القرار
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@index([deliveryDate])
+  @@index([status])
+}
+
+enum PriorityLevel {
+  UPCOMING   // قادم
+  URGENT     // عاجل
+  MEDIUM     // متوسط
+}
+
+enum CreativeStatus {
+  DELIVERED     // تم التسليم
+  IN_PROGRESS   // قيد التنفيذ
+  NOT_STARTED   // لم تبدأ
+}
+
+enum DecisionStatus {
+  APPROVED      // معتمد
+  REJECTED      // مرفوض
+  UNDER_REVIEW  // قيد المراجعة
+}
+
+// ========== 5. إدارة المحتوى التعليمي ==========
+
+model EducationalContent {
+  id              String          @id @default(uuid())
+  courseName      String          // الكورس
+  memberName      String          // اسم العضو
+  source          String          // المصدر
+  task            String          // المهمة
+  details         String          // التفاصيل
+  deadline        DateTime        // Deadline
+  taskLink        String?         // رابط المهمة Canva
+  status          TaskStatus      // الحالة
+  reviewStatus    ReviewStatus    // المراجعة والتدقيق
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([deadline])
+  @@index([status])
+}
+
+enum ReviewStatus {
+  REVIEWED      // تمت المراجعة
+  IN_PROGRESS   // قيد التنفيذ
+  NOT_STARTED   // لم تبدأ
+}
+
+// ========== 6. إدارة الأنشطة والفعاليات ==========
+
+model Activity {
+  id              String         @id @default(uuid())
+  activityName    String         // اسم النشاط/الفعالية
+  activityType    String         // نوع النشاط
+  description     String         // الوصف
+  startDate       DateTime       // تاريخ البداية
+  endDate         DateTime?      // تاريخ النهاية
+  location        String?        // الموقع
+  responsibleTeam String         // الفريق المسؤول
+  budget          Float?         // الميزانية
+  attendees       Int?           // عدد الحضور
+  status          TaskStatus     // الحالة
+  notes           String?        // ملاحظات
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  @@index([startDate])
+  @@index([status])
+}
+
+// ========== 7. إدارة المشاريع ==========
+
+model Project {
+  id              String         @id @default(uuid())
+  projectName     String         // اسم المشروع
+  projectType     String         // نوع المشروع
+  description     String         // الوصف
+  startDate       DateTime       // تاريخ البداية
+  expectedEnd     DateTime       // التاريخ المتوقع للانتهاء
+  actualEnd       DateTime?      // التاريخ الفعلي للانتهاء
+  budget          Float?         // الميزانية
+  teamMembers     String         // قائمة الأعضاء
+  milestones      String         // المراحل الرئيسية
+  status          ProjectStatus  // الحالة
+  progress        Int            @default(0) // نسبة الإنجاز %
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  @@index([startDate])
+  @@index([status])
+}
+
+enum ProjectStatus {
+  PLANNING      // التخطيط
+  IN_PROGRESS   // قيد التنفيذ
+  ON_HOLD       // متوقف مؤقتاً
+  COMPLETED     // مكتمل
+  CANCELLED     // ملغي
+}
+
+// ========== 8. مساحة التعاون المشتركة ==========
+
+model Collaboration {
+  id                String      @id @default(uuid())
+  title             String      // العنوان
+  description       String      // الوصف
+  departments       String      // الأقسام المشاركة
+  members           String      // الأعضاء المشاركين
+  startDate         DateTime    // تاريخ البداية
+  deadline          DateTime?   // الموعد النهائي
+  status            TaskStatus  // الحالة
+  sharedResources   String?     // الموارد المشتركة
+  notes             String?     // ملاحظات
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  @@index([deadline])
+  @@index([status])
+}
+
+// ========== Enums المشتركة ==========
+
 enum TaskStatus {
-  TODO
-  IN_PROGRESS
-  REVIEW
-  COMPLETED
-  ARCHIVED
+  NOT_STARTED   // لم تبدأ
+  IN_PROGRESS   // قيد التنفيذ
+  COMPLETED     // مكتمل
 }
 
-// Task Priority
-enum TaskPriority {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-}
+// ========== Users for Authentication ==========
 
-// Users table with role-based access
 model User {
   id            String      @id @default(uuid())
   email         String      @unique
   passwordHash  String
+  name          String?
+  department    Department?
   role          UserRole    @default(MEMBER)
-  firstName     String?
-  lastName      String?
-  avatarUrl     String?
-  teamId        String?
-  team          Team?       @relation(fields: [teamId], references: [id])
-  
-  // Relations
-  createdTasks  Task[]      @relation("TaskCreator")
-  assignedTasks Task[]      @relation("TaskAssignee")
-  projects      Project[]   @relation("ProjectMembers")
-  ownedProjects Project[]   @relation("ProjectOwner")
-  rankings      Ranking[]
-  comments      Comment[]
-  activities    ActivityLog[]
   
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   
   @@index([email])
-  @@index([role])
-  @@index([teamId])
 }
 
-// Teams/Departments
-model Team {
-  id          String    @id @default(uuid())
-  name        String
-  description String?
-  leaderId    String?
-  
-  members     User[]
-  projects    Project[]
-  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Projects
-model Project {
-  id          String    @id @default(uuid())
-  name        String
-  description String?
-  status      String    @default("active")
-  teamId      String?
-  team        Team?     @relation(fields: [teamId], references: [id])
-  ownerId     String
-  owner       User      @relation("ProjectOwner", fields: [ownerId], references: [id])
-  
-  tasks       Task[]
-  members     User[]    @relation("ProjectMembers")
-  
-  startDate   DateTime?
-  endDate     DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  @@index([teamId])
-  @@index([ownerId])
-}
-
-// Tasks
-model Task {
-  id          String       @id @default(uuid())
-  title       String
-  description String?
-  status      TaskStatus   @default(TODO)
-  priority    TaskPriority @default(MEDIUM)
-  
-  projectId   String?
-  project     Project?     @relation(fields: [projectId], references: [id])
-  
-  assignedToId String?
-  assignedTo   User?       @relation("TaskAssignee", fields: [assignedToId], references: [id])
-  
-  createdById  String
-  createdBy    User        @relation("TaskCreator", fields: [createdById], references: [id])
-  
-  comments     Comment[]
-  
-  dueDate      DateTime?
-  completedAt  DateTime?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  
-  @@index([status])
-  @@index([priority])
-  @@index([assignedToId])
-  @@index([projectId])
-}
-
-// Comments on tasks
-model Comment {
-  id        String   @id @default(uuid())
-  content   String
-  taskId    String
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([taskId])
-  @@index([userId])
-}
-
-// Rankings/Assessments
-model Ranking {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  
-  category  String   // e.g., "productivity", "quality", "collaboration"
-  score     Int      // 1-100
-  period    String   // e.g., "2024-Q1", "2024-11"
-  notes     String?
-  
-  createdAt DateTime @default(now())
-  
-  @@index([userId])
-  @@index([period])
-  @@index([category])
-}
-
-// Activity Log for audit trail
-model ActivityLog {
-  id          String   @id @default(uuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  
-  action      String   // e.g., "task_created", "user_updated"
-  entityType  String   // e.g., "task", "project", "user"
-  entityId    String?
-  details     String?  // JSON string with additional info
-  
-  createdAt   DateTime @default(now())
-  
-  @@index([userId])
-  @@index([action])
-  @@index([createdAt])
+enum UserRole {
+  ADMIN    // مدير
+  LEADER   // قائد
+  MEMBER   // عضو
 }
