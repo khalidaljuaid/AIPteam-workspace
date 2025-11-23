@@ -8,17 +8,17 @@ interface ContentPost {
     publishDate: string
     contentType: string
     writer: string
-  caption LinkedIn: string
-captionX: string
-captionInstagram: string
-designLink: string
-contentAfterReview: string
-reviewer: string
-status: string
-publishedLinkedIn: boolean
-publishedX: boolean
-publishedInstagram: boolean
-publishedTikTok: boolean
+    captionLinkedIn: string
+    captionX: string
+    captionInstagram: string
+    designLink: string
+    contentAfterReview: string
+    reviewer: string
+    status: string
+    publishedLinkedIn: boolean
+    publishedX: boolean
+    publishedInstagram: boolean
+    publishedTikTok: boolean
 }
 
 export default function ContentManagementPage() {
