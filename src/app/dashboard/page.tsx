@@ -151,50 +151,58 @@ export default function DashboardPage() {
                     if (!user?.department) return false;
 
                     return deptMapping[dept.id] === user.department;
+                }).map((dept) => (
+                    <a
+                        key={dept.id}
+                        href={dept.link}
+                        className="bg-[#1E1E2D]/50 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#009EF7] group transition-all duration-300"
+                    >
+                        <div className="flex items-center gap-5">
+                            <div className={`h-14 w-14 rounded-lg bg-[#351962] flex items-center justify-center text-2xl group-hover:bg-[#009EF7] text-white transition-colors duration-200`}>
+                                {dept.icon}
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-bold text-white mb-1">{dept.name}</h3>
+                                <p className="text-xs text-gray-400 font-medium">
+                                    انقر للدخول
+                                </p>
+                            </div>
+                            <div className="text-gray-500 group-hover:text-[#009EF7] transition-colors">
+                                ←
+                            </div>
                         </div>
-            <div className="flex-1">
-                <h3 className="text-lg font-bold text-[#1E1E2D] mb-1">{dept.name}</h3>
-                <p className="text-xs text-gray-400 font-medium">
-                    انقر للدخول
-                </p>
+                    </a>
+                ))}
             </div>
-            <div className="text-gray-300">
-                ←
+
+            {/* Show message if no departments visible (e.g. new member with no dept) */}
+            {
+                user?.role !== 'ADMIN' && !user?.department && (
+                    <div className="text-center p-12 bg-gray-50 rounded-xl border-2 border-dashed">
+                        <p className="text-lg text-muted-foreground">
+                            لم يتم تعيينك لأي قسم بعد. يرجى التواصل مع الإدارة.
+                        </p>
+                    </div>
+                )
+            }
+
+            {/* قسم التعاون المشترك */}
+            <div className="card p-6">
+                <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl">
+                        🔗
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-bold">مساحة التعاون المشتركة</h3>
+                        <p className="text-sm text-muted-foreground">
+                            للمهام التي تتطلب تعاون بين عدة أقسام
+                        </p>
+                    </div>
+                </div>
+                <a href="/collaboration" className="btn-primary inline-block">
+                    عرض المهام المشتركة
+                </a>
             </div>
-        </div>
-                </a >
-                ))
-}
-            </div >
-
-    {/* Show message if no departments visible (e.g. new member with no dept) */ }
-{
-    user?.role !== 'ADMIN' && !user?.department && (
-        <div className="text-center p-12 bg-gray-50 rounded-xl border-2 border-dashed">
-            <p className="text-lg text-muted-foreground">
-                لم يتم تعيينك لأي قسم بعد. يرجى التواصل مع الإدارة.
-            </p>
-        </div>
-    )
-}
-
-{/* قسم التعاون المشترك */ }
-<div className="card p-6">
-    <div className="flex items-center gap-4 mb-4">
-        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl">
-            🔗
-        </div>
-        <div>
-            <h3 className="text-xl font-bold">مساحة التعاون المشتركة</h3>
-            <p className="text-sm text-muted-foreground">
-                للمهام التي تتطلب تعاون بين عدة أقسام
-            </p>
-        </div>
-    </div>
-    <a href="/collaboration" className="btn-primary inline-block">
-        عرض المهام المشتركة
-    </a>
-</div>
         </div >
     )
 }
