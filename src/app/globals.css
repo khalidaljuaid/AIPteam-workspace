@@ -33,7 +33,6 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   direction: rtl;
-  /* اتجاه من اليمين لليسار */
 }
 
 .card {
@@ -95,17 +94,22 @@ body {
   outline-offset: 2px;
 }
 
-/* بطاقات الأقسام */
 .dept-card {
-  @apply card p-6 hover:shadow-xl transition-all cursor-pointer;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
 }
 
 .dept-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* الجداول */
 .table-rtl {
   direction: rtl;
   text-align: right;
