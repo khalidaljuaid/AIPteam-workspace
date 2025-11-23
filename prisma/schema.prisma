@@ -299,6 +299,9 @@ model User {
   email         String      @unique
   passwordHash  String
   name          String?
+  firstName     String?
+  lastName      String?
+  avatarUrl     String?
   department    Department?
   role          UserRole    @default(MEMBER)
   
