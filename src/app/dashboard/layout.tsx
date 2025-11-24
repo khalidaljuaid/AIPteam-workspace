@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
+import TopBar from '@/components/TopBar'
 
 export default function DashboardLayout({
     children,
@@ -96,8 +97,8 @@ export default function DashboardLayout({
                                 key={link.href}
                                 href={link.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
-                                        ? 'bg-white/20 text-white shadow-lg'
-                                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                                    ? 'bg-white/20 text-white shadow-lg'
+                                    : 'text-white/70 hover:text-white hover:bg-white/10'
                                     }`}
                             >
                                 <span className="text-2xl">{link.icon}</span>
@@ -144,44 +145,11 @@ export default function DashboardLayout({
 
             {/* Main Content */}
             <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'mr-72' : 'mr-20'}`}>
-                {/* Top Bar */}
-                <header className="sticky top-0 z-40 bg-brand-dark/90 backdrop-blur-lg border-b border-white/10 px-8 py-4">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-2xl font-bold text-white">لوحة التحكم</h2>
-                            <p className="text-sm text-white/60">مرحباً {user?.name} 👋</p>
-                        </div>
+                {/* New Professional Top Bar */}
+                <TopBar user={user} />
 
-                        <div className="flex items-center gap-4">
-                            {/* Search */}
-                            <div className="hidden md:flex items-center bg-white/5 rounded-lg px-4 py-2 border border-white/10">
-                                <span className="ml-2">🔍</span>
-                                <input
-                                    type="text"
-                                    placeholder="بحث سريع..."
-                                    className="bg-transparent border-none outline-none text-sm w-48 text-white placeholder-white/40"
-                                />
-                            </div>
-
-                            {/* Notifications */}
-                            <button className="relative w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all">
-                                🔔
-                                <span className="absolute top-2 right-2 w-2 h-2 bg-brand-purple-200 rounded-full"></span>
-                            </button>
-
-                            {/* Profile Dropdown */}
-                            <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2">
-                                <div className="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-sm">
-                                    {user?.name?.[0]}
-                                </div>
-                                <span className="text-sm font-medium text-white hidden lg:block">{user?.name}</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                {/* Page Content */}
-                <div className="p-8">
+                {/* Page Content with improved spacing */}
+                <div className="p-8 lg:p-10 max-w-[1600px] mx-auto">
                     {children}
                 </div>
             </main>

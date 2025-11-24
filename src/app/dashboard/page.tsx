@@ -80,56 +80,65 @@ export default function DashboardPage() {
                             user?.role === 'LEADER' ? 'أنت قائد قسم' :
                                 'أنت عضو في الفريق'}
                     </p>
-                    <div className="mt-6 flex gap-4">
+                    <div className="mt-8 flex gap-4">
                         <Link
                             href="/dashboard/tasks"
-                            className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-medium transition-all backdrop-blur-sm"
+                            className="btn-aip btn-aip-primary"
                         >
+                            <span className="ml-2">✅</span>
                             مهامي
                         </Link>
                         <Link
                             href="/dashboard/projects"
-                            className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium transition-all backdrop-blur-sm border border-white/20"
+                            className="btn-aip btn-aip-secondary"
                         >
+                            <span className="ml-2">🚀</span>
                             المشاريع
                         </Link>
                     </div>
                 </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Stats Grid - Improved Spacing */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {statCards.map((stat, index) => (
                     <div
                         key={index}
-                        className={`${stat.color} rounded-xl p-6 shadow-lg card-hover cursor-pointer`}
+                        className={`${stat.color} rounded-2xl p-8 shadow-lg card-hover cursor-pointer relative overflow-hidden group`}
                         style={{ animationDelay: `${index * 0.1}s` }}
                     >
-                        <div className="flex items-center justify-between mb-4">
-                            <span className="text-4xl">{stat.icon}</span>
-                            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                                <span className="text-2xl font-bold text-white">{stat.value}</span>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+
+                        <div className="relative z-10">
+                            <div className="flex items-center justify-between mb-6">
+                                <span className="text-4xl filter drop-shadow-lg">{stat.icon}</span>
+                                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/10">
+                                    <span className="text-2xl font-bold text-white">{stat.value}</span>
+                                </div>
                             </div>
+                            <h3 className="text-white font-bold text-xl mb-1">{stat.title}</h3>
+                            <p className="text-white/80 text-sm font-medium bg-black/10 inline-block px-2 py-1 rounded-lg">+12% نمو</p>
                         </div>
-                        <h3 className="text-white font-bold text-lg">{stat.title}</h3>
-                        <p className="text-white/80 text-sm mt-1">+12% عن الشهر الماضي</p>
                     </div>
                 ))}
             </div>
 
-            {/* Departments Section */}
-            <div>
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-white">الأقسام</h2>
+            {/* Departments Section - Freer Colors */}
+            <div className="section-spacing">
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 className="text-3xl font-bold text-white mb-2">الأقسام</h2>
+                        <p className="text-white/60">استعرض جميع أقسام الفريق</p>
+                    </div>
                     <Link
                         href="/dashboard/departments"
-                        className="text-brand-purple-100 hover:text-brand-primary transition-colors text-sm font-medium"
+                        className="btn-aip btn-aip-secondary text-sm"
                     >
                         عرض الكل ←
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {departments.map((dept, index) => (
                         <Link
                             key={dept.id}
@@ -137,29 +146,36 @@ export default function DashboardPage() {
                             className="group"
                         >
                             <div
-                                className={`glass rounded-2xl p-6 card-hover relative overflow-hidden`}
+                                className={`glass rounded-3xl p-8 card-hover relative overflow-hidden border border-white/5`}
                                 style={{ animationDelay: `${index * 0.15}s` }}
                             >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${dept.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+                                {/* Gradient Overlay on Hover */}
+                                <div className={`absolute inset-0 bg-gradient-to-br ${dept.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
 
                                 <div className="relative z-10">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-3xl shadow-lg">
+                                    <div className="flex items-start justify-between mb-6">
+                                        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-4xl shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
                                             {dept.icon}
                                         </div>
-                                        <span className="text-white/40 group-hover:text-white/60 transition-colors">→</span>
+                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                            <span className="text-white/60 group-hover:text-white">↗</span>
+                                        </div>
                                     </div>
 
-                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-purple-100 transition-colors">
+                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-purple-100 transition-colors">
                                         {dept.name}
                                     </h3>
-                                    <p className="text-white/70 text-sm">
+                                    <p className="text-white/70 text-base leading-relaxed mb-6">
                                         {dept.description}
                                     </p>
 
-                                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                                        <span className="text-xs text-white/50">12 عضو</span>
-                                        <span className="text-xs text-white/50">8 مهام نشطة</span>
+                                    <div className="pt-6 border-t border-white/10 flex items-center gap-4">
+                                        <div className="flex -space-x-3 space-x-reverse">
+                                            {[1, 2, 3].map(i => (
+                                                <div key={i} className="w-8 h-8 rounded-full bg-brand-dark border-2 border-white/10 flex items-center justify-center text-[10px] text-white">U{i}</div>
+                                            ))}
+                                        </div>
+                                        <span className="text-sm text-white/50">+9 أعضاء</span>
                                     </div>
                                 </div>
                             </div>
