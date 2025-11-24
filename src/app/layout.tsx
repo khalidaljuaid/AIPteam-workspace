@@ -1,18 +1,10 @@
-import './globals.css'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'AIP Team Workspace',
-  description: 'Team Management System',
-}
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="en">
       <body>{children}</body>
     </html>
   )
