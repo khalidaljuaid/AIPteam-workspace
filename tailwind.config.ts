@@ -9,58 +9,29 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                // User's Brand Purple Palette
                 brand: {
-                    primary: '#80519F',
-                    secondary: '#351962',
-                    light: '#DEDEDD',
-                    dark: '#151521',
-                    purple: {
-                        100: '#CCADD9',
-                        200: '#72CBD7',
-                        300: '#80519F',
-                        400: '#3D388C',
-                        500: '#351962',
-                        600: '#25336E',
+                    dark: '#151521',      // Main Background
+                    card: '#1E1E2D',      // Card Background
+                    primary: '#80519F',   // Primary Purple
+                    secondary: '#351962', // Darker Purple
+                    accent: '#009EF7',    // Bright Blue Accent
+                    success: '#50CD89',   // Green
+                    warning: '#FFC700',   // Yellow
+                    danger: '#F1416C',    // Red
+                    text: {
+                        primary: '#FFFFFF',
+                        secondary: '#A1A5B7',
+                        muted: '#5E6278'
                     }
-                },
-                background: "var(--background)",
-                foreground: "var(--foreground)",
+                }
             },
             fontFamily: {
                 cairo: ['Cairo', 'sans-serif'],
                 tajawal: ['Tajawal', 'sans-serif'],
             },
-            animation: {
-                'fade-in': 'fadeIn 0.5s ease-in-out',
-                'slide-up': 'slideUp 0.5s ease-out',
-                'slide-down': 'slideDown 0.5s ease-out',
-                'scale-in': 'scaleIn 0.3s ease-out',
-                'blob': 'blob 7s infinite',
-            },
-            keyframes: {
-                fadeIn: {
-                    '0%': { opacity: '0' },
-                    '100%': { opacity: '1' },
-                },
-                slideUp: {
-                    '0%': { transform: 'translateY(20px)', opacity: '0' },
-                    '100%': { transform: 'translateY(0)', opacity: '1' },
-                },
-                slideDown: {
-                    '0%': { transform: 'translateY(-20px)', opacity: '0' },
-                    '100%': { transform: 'translateY(0)', opacity: '1' },
-                },
-                scaleIn: {
-                    '0%': { transform: 'scale(0.9)', opacity: '0' },
-                    '100%': { transform: 'scale(1)', opacity: '1' },
-                },
-                blob: {
-                    '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                    '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                    '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                    '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
             },
         },
     },
