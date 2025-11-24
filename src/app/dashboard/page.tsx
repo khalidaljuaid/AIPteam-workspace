@@ -29,39 +29,18 @@ export default function DashboardPage() {
 
     const departments: Department[] = [
         {
-            id: 'content',
+            id: 'content_posts',
             name: 'إدارة المحتوى والمنشورات',
-            description: 'إدارة المحتوى الرقمي والنشر عبر المنصات',
+            description: 'إدارة المحتوى الرقمي والنشر',
             icon: '✍️',
             color: 'from-purple-600 to-indigo-600',
         },
         {
-            id: 'development',
-            name: 'إدارة المتابعة والتطوير',
-            description: 'متابعة الأداء وتطوير سير العمل',
-            icon: '📈',
-            color: 'from-blue-600 to-cyan-600',
-        },
-        {
-            id: 'tech',
-            name: 'إدارة التقنية والبرمجة',
-            description: 'تطوير الحلول البرمجية والتقنية',
-            icon: '💻',
-            color: 'from-indigo-600 to-blue-600',
-        },
-        {
-            id: 'data',
-            name: 'إدارة البيانات والذكاء الاصطناعي',
-            description: 'تحليل البيانات وحلول الذكاء الاصطناعي',
-            icon: '🤖',
-            color: 'from-violet-600 to-purple-600',
-        },
-        {
-            id: 'academy',
-            name: 'إدارة الأكاديمية والتعليم',
-            description: 'التدريب والتطوير المعرفي',
-            icon: '🎓',
-            color: 'from-emerald-600 to-teal-600',
+            id: 'creativity',
+            name: 'إدارة الإبداع',
+            description: 'تطوير الأفكار والحلول الإبداعية',
+            icon: '🎨',
+            color: 'from-pink-600 to-rose-600',
         },
         {
             id: 'pr',
@@ -71,11 +50,39 @@ export default function DashboardPage() {
             color: 'from-orange-600 to-red-600',
         },
         {
-            id: 'hr',
-            name: 'إدارة الموارد البشرية',
-            description: 'إدارة شؤون الأعضاء والمواهب',
-            icon: '👥',
-            color: 'from-pink-600 to-rose-600',
+            id: 'events',
+            name: 'إدارة الأنشطة والفعاليات',
+            description: 'تخطيط وتنفيذ الفعاليات',
+            icon: '🎉',
+            color: 'from-yellow-500 to-orange-500',
+        },
+        {
+            id: 'projects',
+            name: 'إدارة المشاريع',
+            description: 'إدارة ومتابعة المشاريع التقنية',
+            icon: '🚀',
+            color: 'from-blue-600 to-cyan-600',
+        },
+        {
+            id: 'development',
+            name: 'إدارة المتابعة والتطوير',
+            description: 'متابعة الأداء وتطوير الجودة',
+            icon: '📈',
+            color: 'from-emerald-600 to-teal-600',
+        },
+        {
+            id: 'executive',
+            name: 'الإدارة التنفيذية',
+            description: 'القرارات الاستراتيجية والإدارية',
+            icon: '👑',
+            color: 'from-slate-700 to-slate-900',
+        },
+        {
+            id: 'education',
+            name: 'إدارة المحتوى التعليمي',
+            description: 'تطوير المناهج والمحتوى التعليمي',
+            icon: '📚',
+            color: 'from-indigo-600 to-violet-600',
         },
     ]
 
@@ -83,7 +90,7 @@ export default function DashboardPage() {
         { title: 'إجمالي الأعضاء', value: stats.totalMembers, icon: '👥', color: 'bg-[#1E1E2D] border border-white/5' },
         { title: 'المهام النشطة', value: stats.activeTasks, icon: '✅', color: 'bg-[#1E1E2D] border border-white/5' },
         { title: 'المشاريع المكتملة', value: stats.completedProjects, icon: '🎯', color: 'bg-[#1E1E2D] border border-white/5' },
-        { title: 'الأقسام', value: 7, icon: '🏢', color: 'bg-[#1E1E2D] border border-white/5' },
+        { title: 'الأقسام', value: 8, icon: '🏢', color: 'bg-[#1E1E2D] border border-white/5' },
     ]
 
     return (

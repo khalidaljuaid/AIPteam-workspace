@@ -19,13 +19,14 @@ export default function RegisterPage() {
     const router = useRouter()
 
     const departments = [
-        { id: 'content', name: 'إدارة المحتوى والمنشورات' },
-        { id: 'development', name: 'إدارة المتابعة والتطوير' },
-        { id: 'tech', name: 'إدارة التقنية والبرمجة' },
-        { id: 'data', name: 'إدارة البيانات والذكاء الاصطناعي' },
-        { id: 'academy', name: 'إدارة الأكاديمية والتعليم' },
+        { id: 'content_posts', name: 'إدارة المحتوى والمنشورات' },
+        { id: 'creativity', name: 'إدارة الإبداع' },
         { id: 'pr', name: 'إدارة العلاقات العامة' },
-        { id: 'hr', name: 'إدارة الموارد البشرية' },
+        { id: 'events', name: 'إدارة الأنشطة والفعاليات' },
+        { id: 'projects', name: 'إدارة المشاريع' },
+        { id: 'development', name: 'إدارة المتابعة والتطوير' },
+        { id: 'executive', name: 'الإدارة التنفيذية' },
+        { id: 'education', name: 'إدارة المحتوى التعليمي' },
     ]
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

@@ -52,11 +52,14 @@ export default function UsersPage() {
 
     const getDepartmentName = (deptId: string) => {
         const depts: { [key: string]: string } = {
-            'content': 'المحتوى والإبداع',
-            'technical': 'التقنية والبرمجة',
-            'media': 'الإعلام والتواصل',
-            'design': 'التصميم والجرافيك',
-            'executive': 'الإدارة التنفيذية'
+            'content_posts': 'إدارة المحتوى والمنشورات',
+            'creativity': 'إدارة الإبداع',
+            'pr': 'إدارة العلاقات العامة',
+            'events': 'إدارة الأنشطة والفعاليات',
+            'projects': 'إدارة المشاريع',
+            'development': 'إدارة المتابعة والتطوير',
+            'executive': 'الإدارة التنفيذية',
+            'education': 'إدارة المحتوى التعليمي'
         }
         return depts[deptId] || deptId
     }
