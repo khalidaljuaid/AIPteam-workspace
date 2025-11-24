@@ -1,208 +1,192 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
-interface User {
+interface Department {
     id: string
-    email: string
-    name?: string
-    department?: string
-    role?: string
+    name: string
+    description: string
+    icon: string
+    color: string
 }
 
 export default function DashboardPage() {
-    const [user, setUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
-    const router = useRouter()
+    const [user, setUser] = useState<any>(null)
+    const [stats, setStats] = useState({
+        totalMembers: 0,
+        activeTasks: 0,
+        completedProjects: 0,
+        departments: 0,
+    })
 
     useEffect(() => {
         const userData = localStorage.getItem('user')
-        if (!userData) {
-            router.push('/')
-            return
+        if (userData) {
+            setUser(JSON.parse(userData))
         }
+    }, [])
 
-        setUser(JSON.parse(userData))
-        setLoading(false)
-    }, [router])
-
-    const handleLogout = () => {
-        localStorage.removeItem('user')
-        router.push('/')
-    }
-
-    const departments = [
+    const departments: Department[] = [
         {
             id: 'content',
-            name: 'إدارة المحتوى والمنشورات',
-            icon: '📝',
-            color: 'from-purple-500 to-blue-500',
-            link: '/departments/content'
+            name: 'المحتوى والإبداع',
+            description: 'إنشاء وإدارة المحتوى الرقمي والإبداعي',
+            icon: '✍️',
+            color: 'from-purple-500 to-pink-500',
         },
         {
-            id: 'followup',
-            name: 'إدارة المتابعة والتطوير',
-            icon: '📊',
+            id: 'technical',
+            name: 'التقنية والبرمجة',
+            description: 'تطوير الحلول التقنية والبرمجية',
+            icon: '💻',
             color: 'from-blue-500 to-cyan-500',
-            link: '/departments/followup'
         },
         {
-            id: 'public-relations',
-            name: 'إدارة العلاقات العامة',
-            icon: '🤝',
+            id: 'media',
+            name: 'الإعلام والتواصل',
+            description: 'إدارة وسائل التواصل والإعلام',
+            icon: '📱',
             color: 'from-green-500 to-teal-500',
-            link: '/departments/public-relations'
         },
         {
-            id: 'creativity',
-            name: 'إدارة الإبداع',
+            id: 'design',
+            name: 'التصميم والجرافيك',
+            description: 'تصميم الهويات البصرية والمواد الإبداعية',
             icon: '🎨',
-            color: 'from-pink-500 to-purple-500',
-            link: '/departments/creativity'
-        },
-        {
-            id: 'educational',
-            name: 'إدارة المحتوى التعليمي',
-            icon: '📚',
             color: 'from-orange-500 to-red-500',
-            link: '/departments/educational'
         },
-        {
-            id: 'activities',
-            name: 'إدارة الأنشطة والفعاليات',
-            icon: '🎯',
-            color: 'from-yellow-500 to-orange-500',
-            link: '/departments/activities'
-        },
-        {
-            id: 'projects',
-            name: 'إدارة المشاريع',
-            icon: '🚀',
-            color: 'from-indigo-500 to-purple-500',
-            link: '/departments/projects'
-        }
     ]
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-full min-h-[400px]" dir="rtl">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                    <p className="mt-4 text-muted-foreground">جاري التحميل...</p>
-                </div>
-            </div>
-        )
-    }
+    const statCards = [
+        { title: 'إجمالي الأعضاء', value: stats.totalMembers, icon: '👥', color: 'bg-gradient-to-br from-brand-primary to-brand-purple-400' },
+        { title: 'المهام النشطة', value: stats.activeTasks, icon: '✅', color: 'bg-gradient-to-br from-blue-500 to-cyan-500' },
+        { title: 'المشاريع المكتملة', value: stats.completedProjects, icon: '🎯', color: 'bg-gradient-to-br from-green-500 to-teal-500' },
+        { title: 'الأقسام', value: stats.departments, icon: '🏢', color: 'bg-gradient-to-br from-orange-500 to-pink-500' },
+    ]
 
     return (
-        <div className="space-y-8" dir="rtl">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">نظرة عامة على الأقسام</h2>
-                    <p className="text-gray-400 text-sm">
-                        اختر القسم للوصول إلى البيانات والمهام
+        <div className="space-y-8 animate-fade-in">
+            {/* Welcome Card */}
+            <div className="gradient-purple-cyan rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
+                <div className="relative z-10">
+                    <h1 className="text-4xl font-bold text-white mb-3">
+                        مرحباً بك، {user?.name} 👋
+                    </h1>
+                    <p className="text-white/90 text-lg">
+                        {user?.role === 'ADMIN' ? 'أنت مسؤول النظام' :
+                            user?.role === 'LEADER' ? 'أنت قائد قسم' :
+                                'أنت عضو في الفريق'}
                     </p>
+                    <div className="mt-6 flex gap-4">
+                        <Link
+                            href="/dashboard/tasks"
+                            className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-medium transition-all backdrop-blur-sm"
+                        >
+                            مهامي
+                        </Link>
+                        <Link
+                            href="/dashboard/projects"
+                            className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium transition-all backdrop-blur-sm border border-white/20"
+                        >
+                            المشاريع
+                        </Link>
+                    </div>
                 </div>
             </div>
 
-            {/* الأقسام السبعة */}
-            {/* الأقسام */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {/* Executive Card - Only for Admins */}
-                {user?.role === 'ADMIN' && (
-                    <a
-                        href="/departments/executive"
-                        className="dept-card group border-2 border-yellow-400 bg-yellow-50/50 dark:bg-yellow-900/10"
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {statCards.map((stat, index) => (
+                    <div
+                        key={index}
+                        className={`${stat.color} rounded-xl p-6 shadow-lg card-hover cursor-pointer`}
+                        style={{ animationDelay: `${index * 0.1}s` }}
                     >
-                        <div className="flex items-center gap-4">
-                            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-lg">
-                                👑
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-lg font-bold mb-1 text-yellow-800 dark:text-yellow-500">الإدارة التنفيذية</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    لوحة التحكم الشاملة
-                                </p>
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-4xl">{stat.icon}</span>
+                            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <span className="text-2xl font-bold text-white">{stat.value}</span>
                             </div>
                         </div>
-                    </a>
-                )}
-
-                {departments.filter(dept => {
-                    // Admin sees everything
-                    if (user?.role === 'ADMIN') return true;
-
-                    // Member/Leader sees only their department
-                    // Map department IDs to enum values stored in DB
-                    const deptMapping: Record<string, string> = {
-                        'content': 'CONTENT_PUBLISHING',
-                        'followup': 'FOLLOW_UP',
-                        'public-relations': 'PUBLIC_RELATIONS',
-                        'creativity': 'CREATIVITY',
-                        'educational': 'EDUCATIONAL_CONTENT',
-                        'activities': 'ACTIVITIES',
-                        'projects': 'PROJECTS'
-                    };
-
-                    // If user has no department assigned, maybe show nothing or show all? 
-                    // Requirement: "every member or leader has access only to his department"
-                    // So if no department, show nothing (or maybe a message).
-                    if (!user?.department) return false;
-
-                    return deptMapping[dept.id] === user.department;
-                }).map((dept) => (
-                    <a
-                        key={dept.id}
-                        href={dept.link}
-                        className="bg-[#1E1E2D]/50 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#009EF7] group transition-all duration-300"
-                    >
-                        <div className="flex items-center gap-5">
-                            <div className={`h-14 w-14 rounded-lg bg-[#351962] flex items-center justify-center text-2xl group-hover:bg-[#009EF7] text-white transition-colors duration-200`}>
-                                {dept.icon}
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-lg font-bold text-white mb-1">{dept.name}</h3>
-                                <p className="text-xs text-gray-400 font-medium">
-                                    انقر للدخول
-                                </p>
-                            </div>
-                            <div className="text-gray-500 group-hover:text-[#009EF7] transition-colors">
-                                ←
-                            </div>
-                        </div>
-                    </a>
+                        <h3 className="text-white font-bold text-lg">{stat.title}</h3>
+                        <p className="text-white/80 text-sm mt-1">+12% عن الشهر الماضي</p>
+                    </div>
                 ))}
             </div>
 
-            {/* Show message if no departments visible (e.g. new member with no dept) */}
-            {
-                user?.role !== 'ADMIN' && !user?.department && (
-                    <div className="text-center p-12 bg-gray-50 rounded-xl border-2 border-dashed">
-                        <p className="text-lg text-muted-foreground">
-                            لم يتم تعيينك لأي قسم بعد. يرجى التواصل مع الإدارة.
-                        </p>
-                    </div>
-                )
-            }
-
-            {/* قسم التعاون المشترك */}
-            <div className="card p-6">
-                <div className="flex items-center gap-4 mb-4">
-                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl">
-                        🔗
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold">مساحة التعاون المشتركة</h3>
-                        <p className="text-sm text-muted-foreground">
-                            للمهام التي تتطلب تعاون بين عدة أقسام
-                        </p>
-                    </div>
+            {/* Departments Section */}
+            <div>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-white">الأقسام</h2>
+                    <Link
+                        href="/dashboard/departments"
+                        className="text-brand-purple-100 hover:text-brand-primary transition-colors text-sm font-medium"
+                    >
+                        عرض الكل ←
+                    </Link>
                 </div>
-                <a href="/collaboration" className="btn-primary inline-block">
-                    عرض المهام المشتركة
-                </a>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {departments.map((dept, index) => (
+                        <Link
+                            key={dept.id}
+                            href={`/departments/${dept.id}`}
+                            className="group"
+                        >
+                            <div
+                                className={`glass rounded-2xl p-6 card-hover relative overflow-hidden`}
+                                style={{ animationDelay: `${index * 0.15}s` }}
+                            >
+                                <div className={`absolute inset-0 bg-gradient-to-br ${dept.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+
+                                <div className="relative z-10">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br ${dept.color} flex items-center justify-center text-3xl shadow-lg">
+                                            {dept.icon}
+                                        </div>
+                                        <span className="text-white/40 group-hover:text-white/60 transition-colors">→</span>
+                                    </div>
+
+                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-purple-100 transition-colors">
+                                        {dept.name}
+                                    </h3>
+                                    <p className="text-white/70 text-sm">
+                                        {dept.description}
+                                    </p>
+
+                                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                                        <span className="text-xs text-white/50">12 عضو</span>
+                                        <span className="text-xs text-white/50">8 مهام نشطة</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-        </div >
+
+            {/* Recent Activity */}
+            <div className="glass rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-white mb-6">النشاط الأخير</h2>
+
+                <div className="space-y-4">
+                    {[1, 2, 3].map((item) => (
+                        <div key={item} className="flex items-start gap-4 p-4 rounded-lg hover:bg-white/5 transition-colors">
+                            <div className="w-10 h-10 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold flex-shrink-0">
+                                A
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-white font-medium">أحمد محمد قام بإنهاء مهمة "تصميم الشعار"</p>
+                                <p className="text-white/50 text-sm mt-1">منذ ساعتين</p>
+                            </div>
+                            <span className="text-green-400 text-sm bg-green-500/20 px-3 py-1 rounded-full">مكتملة</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     )
 }

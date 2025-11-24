@@ -3,8 +3,8 @@ import "./globals.css";
 import { AuthProvider } from "./modules/auth";
 
 export const metadata: Metadata = {
-  title: "نظام إدارة الفريق",
-  description: "نظام إدارة الفريق بالعربية",
+  title: "نظام إدارة الفريق | رواد الذكاء الاصطناعي",
+  description: "نظام إدارة الفريق - رواد الذكاء الاصطناعي",
 };
 
 export default function RootLayout({
@@ -13,11 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" data-bs-theme="dark">
-      <head>
-        <link rel="stylesheet" href="/metronic.css" />
-      </head>
-      <body>
+    <html lang="ar" dir="rtl">
+      <body className="font-cairo">
         <AuthProvider>
           {children}
         </AuthProvider>

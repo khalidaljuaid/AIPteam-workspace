@@ -1,7 +1,9 @@
-/* استيراد الخطوط العربية */
-@import '@fontsource/cairo/arabic.css';
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   margin: 0;
@@ -9,10 +11,121 @@
   box-sizing: border-box;
 }
 
-html[dir="rtl"] {
+html {
   direction: rtl;
 }
 
 body {
   font-family: 'Cairo', 'Tajawal', sans-serif;
+  background: #151521;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1E1E2D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #80519F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #351962;
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Glass Morphism Effect */
+.glass {
+  background: rgba(30, 30, 45, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Backgrounds */
+.gradient-purple {
+  background: linear-gradient(135deg, #80519F 0%, #351962 100%);
+}
+
+.gradient-purple-blue {
+  background: linear-gradient(135deg, #3D388C 0%, #25336E 100%);
+}
+
+.gradient-purple-cyan {
+  background: linear-gradient(135deg, #80519F 0%, #72CBD7 100%);
+}
+
+/* Input Styles */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #80519F;
+  box-shadow: 0 0 0 3px rgba(128, 81, 159, 0.1);
+}
+
+/* Button Hover Effects */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Card Hover Effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(128, 81, 159, 0.2);
+}
+
+/* Skeleton Loading */
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  100% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
