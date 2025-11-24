@@ -1,187 +1,88 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* استيراد الخطوط العربية */
 @import '@fontsource/cairo/arabic.css';
 @import '@fontsource/tajawal/arabic.css';
 
+/* Import Bootstrap Core */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Custom Dark Purple Theme Overrides */
 :root {
-  /* Metronic 8 + Custom Dark Purple Theme */
-  --background: 263 59% 15%;
-  /* #1a0d33 - Very Dark Purple Background */
-  --foreground: 0 0% 100%;
-  /* White Text */
-
-  --card: 263 59% 20%;
-  /* Slightly lighter purple for cards */
-  --card-foreground: 0 0% 100%;
-
-  --primary: 276 32% 47%;
-  /* #80519F */
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 263 59% 24%;
-  /* #351962 */
-  --secondary-foreground: 0 0% 100%;
-
-  --muted: 263 40% 30%;
-  --muted-foreground: 263 20% 70%;
-
-  --border: 263 40% 25%;
-  --input: 263 40% 25%;
-
-  --gradient-primary: linear-gradient(135deg, #3D388C 0%, #25336E 25%, #80519F 50%, #CCADD9 75%, #72CBD7 100%);
+  --bs-body-bg: #151521;
+  --bs-body-color: #ffffff;
+  --bs-primary: #80519F;
+  --bs-primary-rgb: 128, 81, 159;
+  --bs-secondary: #351962;
+  --bs-secondary-rgb: 53, 25, 98;
+  --bs-light: #DEDEDD;
+  --bs-dark: #151521;
+  --bs-border-color: rgba(255, 255, 255, 0.1);
 }
 
-.dark {
-  --background: 263 59% 15%;
-  --foreground: 0 0% 100%;
-  --primary: 276 32% 47%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 263 59% 24%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 263 40% 30%;
-  --muted-foreground: 263 20% 70%;
-  --border: 263 40% 25%;
+body {
+  background: linear-gradient(135deg, #351962 0%, #151521 100%) !important;
+  background-attachment: fixed !important;
+  color: #ffffff !important;
+  direction: rtl !important;
+  font-family: 'Cairo', 'Tajawal', sans-serif !important;
+  min-height: 100vh;
 }
 
 * {
   border-color: rgba(255, 255, 255, 0.1);
-  /* Subtle borders */
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
 
-body {
-  background-color: #151521;
-  /* Metronic Dark Background */
-  background-image: radial-gradient(circle at 50% 0%, #351962 0%, #151521 60%);
-  /* Purple Glow at top */
-  color: white;
-  direction: rtl;
-  min-height: 100vh;
+/* Logo inversion for dark theme */
+img[alt="Logo"],
+img[src*="logo"],
+img[src*="LOGO"] {
+  filter: brightness(0) invert(1);
 }
 
-/* Glassmorphism Card */
+/* Bootstrap overrides for dark theme */
 .card {
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  background-color: rgba(30, 30, 45, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
 }
 
-.dark .card {
-  background: rgba(30, 20, 50, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Premium Button */
 .btn-primary {
-  background: var(--gradient-primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
+  background-color: #80519F !important;
+  border-color: #80519F !important;
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  background-color: #351962 !important;
+  border-color: #351962 !important;
 }
 
-.btn-secondary {
-  background-color: white;
-  color: #351962;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  border: 1px solid #E5E7EB;
-  transition: all 0.2s;
+.navbar,
+.sidebar,
+.aside {
+  background-color: rgba(30, 30, 45, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.btn-secondary:hover {
-  background-color: #F9FAFB;
-  border-color: #D1D5DB;
+.table {
+  color: #ffffff !important;
 }
 
-.input-field {
-  display: flex;
-  height: 3rem;
-  width: 100%;
-  border-radius: 0.75rem;
-  border: 1px solid hsl(var(--border));
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 0.5rem 1rem;
-  font-size: 0.95rem;
-  direction: rtl;
-  text-align: right;
-  transition: all 0.2s;
+.table th {
+  background-color: rgba(128, 81, 159, 0.2) !important;
+  color: #ffffff !important;
 }
 
-.input-field:focus {
-  outline: none;
-  border-color: #80519F;
-  box-shadow: 0 0 0 4px rgba(128, 81, 159, 0.1);
-  background-color: white;
+.form-control,
+.form-select {
+  background-color: rgba(30, 30, 45, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
 }
 
-/* Department Card - Premium */
-.dept-card {
-  background: white;
-  border-radius: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.dept-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: var(--gradient-primary);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.dept-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-}
-
-.dept-card:hover::before {
-  opacity: 1;
-}
-
-/* Text Gradient Utility */
-.text-gradient {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.table-rtl {
-  direction: rtl;
-  text-align: right;
-}
-
-.table-rtl th {
-  text-align: right;
-  padding: 1rem;
-  font-weight: 600;
-  color: #351962;
-  background-color: rgba(128, 81, 159, 0.05);
-}
-
-.table-rtl td {
-  text-align: right;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+.form-control:focus,
+.form-select:focus {
+  background-color: rgba(30, 30, 45, 0.9) !important;
+  border-color: #80519F !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 0.25rem rgba(128, 81, 159, 0.25) !important;
 }
