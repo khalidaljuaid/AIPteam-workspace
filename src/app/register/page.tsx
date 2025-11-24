@@ -57,12 +57,13 @@ export default function RegisterPage() {
                 <div className="w-full max-w-md space-y-6 relative z-10">
                     <div className="text-center space-y-2">
                         <div className="flex justify-center mb-4">
-                            <div className="relative w-20 h-20">
+                            <div className="relative w-24 h-24">
                                 <Image
                                     src="/logo.png"
-                                    alt="AIPioneers Logo"
-                                    fill
-                                    className="object-contain drop-shadow-xl brightness-0 invert" // White logo
+                                    alt="شعار النظام"
+                                    width={96}
+                                    height={96}
+                                    className="object-contain drop-shadow-xl"
                                 />
                             </div>
                         </div>

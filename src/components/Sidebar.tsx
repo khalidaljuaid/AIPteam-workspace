@@ -23,12 +23,13 @@ export default function Sidebar({ user }: { user: any }) {
         <aside className="fixed right-0 top-0 h-screen w-72 bg-[#1E1E2D] text-white z-50 transition-all duration-300 hidden lg:flex flex-col shadow-xl">
             {/* Logo Area */}
             <div className="h-20 flex items-center justify-center border-b border-white/10 mb-2">
-                <div className="relative w-32 h-10">
+                <div className="relative w-40 h-12">
                     <Image
                         src="/logo.png"
                         alt="Logo"
-                        fill
-                        className="object-contain brightness-0 invert" // Make logo white for dark sidebar
+                        width={160}
+                        height={48}
+                        className="object-contain"
                     />
                 </div>
             </div>
@@ -43,8 +44,8 @@ export default function Sidebar({ user }: { user: any }) {
                             key={link.href}
                             href={link.href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium ${isActive
-                                    ? 'bg-[#351962] text-white' // Active: Brand Purple
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                ? 'bg-[#351962] text-white' // Active: Brand Purple
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             <span className="text-lg opacity-80">{link.icon}</span>

@@ -49,12 +49,13 @@ export default function LoginPage() {
         <div className="w-full max-w-md space-y-8 relative z-10">
           <div className="text-center space-y-2">
             <div className="flex justify-center mb-6">
-              <div className="relative w-24 h-24">
+              <div className="relative w-32 h-32">
                 <Image
                   src="/logo.png"
-                  alt="AIPioneers Logo"
-                  fill
-                  className="object-contain drop-shadow-xl brightness-0 invert" // White logo
+                  alt="شعار النظام"
+                  width={128}
+                  height={128}
+                  className="object-contain drop-shadow-xl"
                   priority
                 />
               </div>
