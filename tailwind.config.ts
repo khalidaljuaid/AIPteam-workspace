@@ -10,18 +10,15 @@ const config: Config = {
         extend: {
             colors: {
                 brand: {
-                    dark: '#151521',      // Main Background
-                    card: '#1E1E2D',      // Card Background
-                    primary: '#80519F',   // Primary Purple
-                    secondary: '#351962', // Darker Purple
-                    accent: '#009EF7',    // Bright Blue Accent
-                    success: '#50CD89',   // Green
-                    warning: '#FFC700',   // Yellow
-                    danger: '#F1416C',    // Red
-                    text: {
-                        primary: '#FFFFFF',
-                        secondary: '#A1A5B7',
-                        muted: '#5E6278'
+                    primary: '#80519F',   // Main Purple
+                    secondary: '#351962', // Deep Purple
+                    light: '#DEDEDD',     // Light Background
+                    dark: '#151521',      // Dark Background
+                    accent: {
+                        indigo: '#3D388C',
+                        navy: '#25336E',
+                        lavender: '#CCADD9',
+                        cyan: '#72CBD7',
                     }
                 }
             },
