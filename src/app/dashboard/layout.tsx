@@ -149,7 +149,7 @@ export default function DashboardLayout({
                 <TopBar user={user} />
 
                 {/* Page Content with improved spacing */}
-                <div className="p-8 lg:p-10 max-w-[1600px] mx-auto">
+                <div className="p-8 lg:p-12 max-w-[1800px] mx-auto space-y-10">
                     {children}
                 </div>
             </main>

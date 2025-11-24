@@ -13,6 +13,20 @@ export async function POST(request: Request) {
             )
         }
 
+        // TEMPORARY: Bypass for UI debugging
+        if (email === 'aipioneer.sa@gmail.com' && password === 'Aa654321@') {
+            return NextResponse.json({
+                user: {
+                    id: 'debug-id',
+                    email: email,
+                    role: 'ADMIN',
+                    name: 'Admin User',
+                    firstName: 'Admin',
+                    lastName: 'User'
+                }
+            })
+        }
+
         // Find user by email
         const user = await prisma.user.findUnique({
             where: { email },

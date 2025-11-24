@@ -124,23 +124,53 @@ select:focus {
 
 /* Improved Spacing & Layout */
 .section-spacing {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .container-custom {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 3rem;
+  /* Increased padding */
+}
+
+/* Card Styles Refined */
+.glass {
+  background: rgba(30, 30, 45, 0.6);
+  /* Slightly more transparent */
+  backdrop-filter: blur(16px);
+  /* Increased blur */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Typography Refinements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.02em;
+  /* Tighter headings */
+  line-height: 1.3;
+}
+
+p {
+  line-height: 1.6;
+  /* More readable body text */
+  color: rgba(255, 255, 255, 0.85);
+  /* Brighter text */
 }
 
 /* Button Hover Effects */
 button {
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 button:active {
@@ -153,8 +183,9 @@ button:active {
 }
 
 .card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Skeleton Loading */
