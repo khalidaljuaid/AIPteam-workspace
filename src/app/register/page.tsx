@@ -19,10 +19,13 @@ export default function RegisterPage() {
     const router = useRouter()
 
     const departments = [
-        { id: 'content', name: 'المحتوى والإبداع' },
-        { id: 'technical', name: 'التقنية والبرمجة' },
-        { id: 'media', name: 'الإعلام والتواصل' },
-        { id: 'design', name: 'التصميم والجرافيك' },
+        { id: 'content', name: 'إدارة المحتوى والمنشورات' },
+        { id: 'development', name: 'إدارة المتابعة والتطوير' },
+        { id: 'tech', name: 'إدارة التقنية والبرمجة' },
+        { id: 'data', name: 'إدارة البيانات والذكاء الاصطناعي' },
+        { id: 'academy', name: 'إدارة الأكاديمية والتعليم' },
+        { id: 'pr', name: 'إدارة العلاقات العامة' },
+        { id: 'hr', name: 'إدارة الموارد البشرية' },
     ]
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -56,39 +59,37 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand-secondary to-brand-purple-600">
-            {/* Animated Background Blobs */}
-            <div className="absolute top-0 -left-4 w-72 h-72 bg-brand-primary opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-            <div className="absolute top-0 -right-4 w-72 h-72 bg-brand-purple-200 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-brand-purple-400 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        <div className="min-h-screen relative overflow-hidden bg-[#151521]">
+            {/* Clean Background - No Blobs */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#151521] to-[#1E1E2D]"></div>
 
             {/* Glass Card Container */}
             <div className="relative min-h-screen flex items-center justify-center p-4">
                 <div className="w-full max-w-lg">
                     {/* Logo & Title */}
-                    <div className="text-center mb-8 animate-fade-in">
-                        <div className="flex justify-center mb-6">
-                            <div className="relative w-24 h-24">
+                    <div className="text-center mb-10 animate-fade-in">
+                        <div className="flex justify-center mb-8">
+                            <div className="relative w-32 h-32">
                                 <Image
                                     src="/logo.png"
                                     alt="شعار رواد الذكاء الاصطناعي"
-                                    width={96}
-                                    height={96}
+                                    width={128}
+                                    height={128}
                                     className="object-contain drop-shadow-2xl"
                                     priority
                                 />
                             </div>
                         </div>
-                        <h1 className="text-3xl font-bold text-white mb-2">
+                        <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
                             انضم إلى الفريق 🚀
                         </h1>
-                        <p className="text-brand-light/80">
+                        <p className="text-white/60 text-lg">
                             أنشئ حسابك الجديد وابدأ رحلتك معنا
                         </p>
                     </div>
 
-                    {/* Register Card */}
-                    <div className="glass rounded-2xl p-8 shadow-2xl animate-scale-in">
+                    {/* Register Card - Clean & Solid */}
+                    <div className="bg-[#1E1E2D] rounded-3xl p-10 shadow-2xl border border-white/5 animate-scale-in">
                         <form onSubmit={handleRegister} className="space-y-6">
 
                             <div className="grid grid-cols-2 gap-4">

@@ -30,67 +30,86 @@ export default function DashboardPage() {
     const departments: Department[] = [
         {
             id: 'content',
-            name: 'المحتوى والإبداع',
-            description: 'إنشاء وإدارة المحتوى الرقمي والإبداعي',
+            name: 'إدارة المحتوى والمنشورات',
+            description: 'إدارة المحتوى الرقمي والنشر عبر المنصات',
             icon: '✍️',
-            color: 'from-purple-500 to-pink-500',
+            color: 'from-purple-600 to-indigo-600',
         },
         {
-            id: 'technical',
-            name: 'التقنية والبرمجة',
-            description: 'تطوير الحلول التقنية والبرمجية',
+            id: 'development',
+            name: 'إدارة المتابعة والتطوير',
+            description: 'متابعة الأداء وتطوير سير العمل',
+            icon: '📈',
+            color: 'from-blue-600 to-cyan-600',
+        },
+        {
+            id: 'tech',
+            name: 'إدارة التقنية والبرمجة',
+            description: 'تطوير الحلول البرمجية والتقنية',
             icon: '💻',
-            color: 'from-blue-500 to-cyan-500',
+            color: 'from-indigo-600 to-blue-600',
         },
         {
-            id: 'media',
-            name: 'الإعلام والتواصل',
-            description: 'إدارة وسائل التواصل والإعلام',
-            icon: '📱',
-            color: 'from-green-500 to-teal-500',
+            id: 'data',
+            name: 'إدارة البيانات والذكاء الاصطناعي',
+            description: 'تحليل البيانات وحلول الذكاء الاصطناعي',
+            icon: '🤖',
+            color: 'from-violet-600 to-purple-600',
         },
         {
-            id: 'design',
-            name: 'التصميم والجرافيك',
-            description: 'تصميم الهويات البصرية والمواد الإبداعية',
-            icon: '🎨',
-            color: 'from-orange-500 to-red-500',
+            id: 'academy',
+            name: 'إدارة الأكاديمية والتعليم',
+            description: 'التدريب والتطوير المعرفي',
+            icon: '🎓',
+            color: 'from-emerald-600 to-teal-600',
+        },
+        {
+            id: 'pr',
+            name: 'إدارة العلاقات العامة',
+            description: 'التواصل والشراكات الخارجية',
+            icon: '🤝',
+            color: 'from-orange-600 to-red-600',
+        },
+        {
+            id: 'hr',
+            name: 'إدارة الموارد البشرية',
+            description: 'إدارة شؤون الأعضاء والمواهب',
+            icon: '👥',
+            color: 'from-pink-600 to-rose-600',
         },
     ]
 
     const statCards = [
-        { title: 'إجمالي الأعضاء', value: stats.totalMembers, icon: '👥', color: 'bg-gradient-to-br from-brand-primary to-brand-purple-400' },
-        { title: 'المهام النشطة', value: stats.activeTasks, icon: '✅', color: 'bg-gradient-to-br from-blue-500 to-cyan-500' },
-        { title: 'المشاريع المكتملة', value: stats.completedProjects, icon: '🎯', color: 'bg-gradient-to-br from-green-500 to-teal-500' },
-        { title: 'الأقسام', value: stats.departments, icon: '🏢', color: 'bg-gradient-to-br from-orange-500 to-pink-500' },
+        { title: 'إجمالي الأعضاء', value: stats.totalMembers, icon: '👥', color: 'bg-[#1E1E2D] border border-white/5' },
+        { title: 'المهام النشطة', value: stats.activeTasks, icon: '✅', color: 'bg-[#1E1E2D] border border-white/5' },
+        { title: 'المشاريع المكتملة', value: stats.completedProjects, icon: '🎯', color: 'bg-[#1E1E2D] border border-white/5' },
+        { title: 'الأقسام', value: 7, icon: '🏢', color: 'bg-[#1E1E2D] border border-white/5' },
     ]
 
     return (
-        <div className="space-y-8 animate-fade-in">
-            {/* Welcome Card */}
-            <div className="gradient-purple-cyan rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
+        <div className="space-y-10 animate-fade-in">
+            {/* Welcome Card - Clean & Solid */}
+            <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl p-10 shadow-2xl relative overflow-hidden border border-white/10">
                 <div className="relative z-10">
-                    <h1 className="text-4xl font-bold text-white mb-3">
+                    <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
                         مرحباً بك، {user?.name} 👋
                     </h1>
-                    <p className="text-white/90 text-lg">
+                    <p className="text-white/90 text-xl font-light">
                         {user?.role === 'ADMIN' ? 'أنت مسؤول النظام' :
                             user?.role === 'LEADER' ? 'أنت قائد قسم' :
                                 'أنت عضو في الفريق'}
                     </p>
-                    <div className="mt-8 flex gap-4">
+                    <div className="mt-10 flex gap-5">
                         <Link
                             href="/dashboard/tasks"
-                            className="btn-aip btn-aip-primary"
+                            className="btn-aip bg-white text-brand-primary hover:bg-white/90 shadow-lg border-0"
                         >
                             <span className="ml-2">✅</span>
                             مهامي
                         </Link>
                         <Link
                             href="/dashboard/projects"
-                            className="btn-aip btn-aip-secondary"
+                            className="btn-aip bg-white/10 text-white hover:bg-white/20 border border-white/20"
                         >
                             <span className="ml-2">🚀</span>
                             المشاريع
