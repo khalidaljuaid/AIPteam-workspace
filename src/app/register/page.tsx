@@ -3,20 +3,33 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
-        name: '',
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        department: '',
+        role: 'MEMBER' // Default role
     })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const departments = [
+        { id: 'content', name: 'المحتوى والإبداع' },
+        { id: 'technical', name: 'التقنية والبرمجة' },
+        { id: 'media', name: 'الإعلام والتواصل' },
+        { id: 'design', name: 'التصميم والجرافيك' },
+    ]
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         setError('')
         setLoading(true)
@@ -31,180 +44,191 @@ export default function RegisterPage() {
             const data = await res.json()
 
             if (res.ok) {
-                // Auto login or redirect to login
                 router.push('/')
             } else {
-                // Show detailed error if available
-                const errorMsg = data.details || data.error || 'فشل إنشاء الحساب';
-                const debugInfo = data.debug ? ` (${data.debug})` : '';
-                setError(errorMsg + debugInfo);
+                setError(data.error || 'فشل إنشاء الحساب')
             }
-        } catch (err: any) {
-            setError(err.message || 'حدث خطأ. الرجاء المحاولة مرة أخرى.')
+        } catch (err) {
+            setError('حدث خطأ في الاتصال')
         } finally {
             setLoading(false)
         }
     }
 
     return (
-        <div className="min-h-screen flex w-full" dir="rtl">
-            {/* Right Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[#151521] relative overflow-hidden border-l border-white/5">
-                {/* Decorative Background Elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-purple-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
-                <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-blue-900/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand-secondary to-brand-purple-600">
+            {/* Animated Background Blobs */}
+            <div className="absolute top-0 -left-4 w-72 h-72 bg-brand-primary opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+            <div className="absolute top-0 -right-4 w-72 h-72 bg-brand-purple-200 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-brand-purple-400 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
 
-                <div className="w-full max-w-md space-y-6 relative z-10">
-                    <div className="text-center space-y-2">
-                        <div className="flex justify-center mb-4">
+            {/* Glass Card Container */}
+            <div className="relative min-h-screen flex items-center justify-center p-4">
+                <div className="w-full max-w-lg">
+                    {/* Logo & Title */}
+                    <div className="text-center mb-8 animate-fade-in">
+                        <div className="flex justify-center mb-6">
                             <div className="relative w-24 h-24">
                                 <Image
                                     src="/logo.png"
-                                    alt="شعار النظام"
+                                    alt="شعار رواد الذكاء الاصطناعي"
                                     width={96}
                                     height={96}
-                                    className="object-contain drop-shadow-xl"
+                                    className="object-contain drop-shadow-2xl"
+                                    priority
                                 />
                             </div>
                         </div>
-                        <h1 className="text-2xl font-bold text-white">
-                            انضم إلى فريق المبدعين 🚀
+                        <h1 className="text-3xl font-bold text-white mb-2">
+                            انضم إلى الفريق 🚀
                         </h1>
-                        <p className="text-gray-400 text-sm">
-                            أنشئ حسابك الجديد في AIPioneers Workspace
+                        <p className="text-brand-light/80">
+                            أنشئ حسابك الجديد وابدأ رحلتك معنا
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        {error && (
-                            <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl text-sm border border-red-500/20 flex items-center gap-2">
-                                ⚠️ {error}
+                    {/* Register Card */}
+                    <div className="glass rounded-2xl p-8 shadow-2xl animate-scale-in">
+                        <form onSubmit={handleRegister} className="space-y-6">
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* First Name */}
+                                <div>
+                                    <label className="block text-sm font-medium text-white mb-2">
+                                        الاسم الأول
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        required
+                                        value={formData.firstName}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:bg-white/15 focus:border-brand-primary transition-all"
+                                        placeholder="محمد"
+                                    />
+                                </div>
+
+                                {/* Last Name */}
+                                <div>
+                                    <label className="block text-sm font-medium text-white mb-2">
+                                        الاسم الأخير
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        required
+                                        value={formData.lastName}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:bg-white/15 focus:border-brand-primary transition-all"
+                                        placeholder="أحمد"
+                                    />
+                                </div>
                             </div>
-                        )}
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-gray-300">الاسم الأول</label>
-                                <input
-                                    type="text"
-                                    value={formData.firstName}
-                                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
-                                    required
-                                />
+                            {/* Email */}
+                            <div>
+                                <label className="block text-sm font-medium text-white mb-2">
+                                    البريد الإلكتروني
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:bg-white/15 focus:border-brand-primary transition-all"
+                                        placeholder="example@aipioneers.sa"
+                                    />
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
+                                        ✉️
+                                    </span>
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-gray-300">اسم العائلة</label>
-                                <input
-                                    type="text"
-                                    value={formData.lastName}
-                                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
-                                    required
-                                />
+
+                            {/* Password */}
+                            <div>
+                                <label className="block text-sm font-medium text-white mb-2">
+                                    كلمة المرور
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        required
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:bg-white/15 focus:border-brand-primary transition-all"
+                                        placeholder="••••••••"
+                                    />
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
+                                        🔒
+                                    </span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-300">اسم المستخدم (للعرض)</label>
-                            <input
-                                type="text"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
-                                placeholder="مثال: أحمد محمد"
-                                required
-                            />
-                        </div>
+                            {/* Department */}
+                            <div>
+                                <label className="block text-sm font-medium text-white mb-2">
+                                    القسم
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        name="department"
+                                        required
+                                        value={formData.department}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:bg-brand-secondary focus:border-brand-primary transition-all appearance-none"
+                                    >
+                                        <option value="" className="bg-brand-dark text-gray-400">اختر القسم...</option>
+                                        {departments.map(dept => (
+                                            <option key={dept.id} value={dept.id} className="bg-brand-dark text-white">
+                                                {dept.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none">
+                                        ▼
+                                    </span>
+                                </div>
+                            </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-300">البريد الإلكتروني</label>
-                            <input
-                                type="email"
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
-                                placeholder="name@example.com"
-                                required
-                            />
-                        </div>
+                            {/* Error Message */}
+                            {error && (
+                                <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg text-sm animate-slide-down">
+                                    {error}
+                                </div>
+                            )}
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-300">كلمة المرور</label>
-                            <input
-                                type="password"
-                                value={formData.password}
-                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl bg-[#1E1E2D] border border-white/10 focus:border-[#009EF7] focus:ring-1 focus:ring-[#009EF7] text-white placeholder:text-gray-600 outline-none transition-all"
-                                placeholder="••••••••"
-                                required
-                                minLength={6}
-                            />
-                        </div>
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full gradient-purple text-white font-bold py-3 px-6 rounded-lg hover:shadow-lg hover:shadow-brand-primary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                            >
+                                {loading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <span className="animate-spin">⏳</span>
+                                        جاري إنشاء الحساب...
+                                    </span>
+                                ) : (
+                                    'إنشاء حساب جديد'
+                                )}
+                            </button>
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-[#009EF7] hover:bg-[#0095E8] text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200 transform hover:-translate-y-1 mt-4"
-                        >
-                            {loading ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                                    جاري الإنشاء...
-                                </span>
-                            ) : 'إنشاء الحساب'}
-                        </button>
-                    </form>
-
-                    <div className="text-center text-sm text-gray-500 pt-2">
-                        <p>
-                            لديك حساب بالفعل؟{' '}
-                            <a href="/" className="text-[#009EF7] font-bold hover:underline">
-                                تسجيل الدخول
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Left Side - Visual */}
-            <div className="hidden lg:flex w-1/2 bg-[#351962] relative items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#3D388C] via-[#351962] to-[#25336E] opacity-90"></div>
-                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20"></div>
-
-                {/* Abstract Shapes */}
-                <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-[#80519F] rounded-full mix-blend-overlay filter blur-3xl opacity-40 animate-pulse"></div>
-                <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-[#72CBD7] rounded-full mix-blend-overlay filter blur-3xl opacity-40 animate-pulse animation-delay-2000"></div>
-
-                <div className="relative z-10 text-white text-center p-12 max-w-xl">
-                    <h2 className="text-4xl font-bold mb-6 leading-tight">
-                        ابدأ رحلتك معنا
-                        <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#CCADD9] to-[#72CBD7]">
-                            في عالم الإبداع
-                        </span>
-                    </h2>
-                    <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                        انضم إلى نخبة من المبدعين والمنظمين. منصة AIPioneers توفر لك الأدوات اللازمة للتميز والنجاح في مهامك.
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-4 text-left">
-                        <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
-                            <span className="text-xl">✨</span>
-                            <span className="text-sm text-gray-200">بيئة عمل محفزة</span>
-                        </div>
-                        <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
-                            <span className="text-xl">📊</span>
-                            <span className="text-sm text-gray-200">تنظيم متقن</span>
-                        </div>
-                        <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
-                            <span className="text-xl">🤝</span>
-                            <span className="text-sm text-gray-200">تعاون فعال</span>
-                        </div>
-                        <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
-                            <span className="text-xl">📈</span>
-                            <span className="text-sm text-gray-200">تطور مستمر</span>
-                        </div>
+                            {/* Login Link */}
+                            <div className="text-center mt-6">
+                                <p className="text-white/70 text-sm">
+                                    لديك حساب بالفعل؟{' '}
+                                    <Link
+                                        href="/"
+                                        className="text-brand-purple-100 hover:text-brand-primary font-semibold transition-colors"
+                                    >
+                                        تسجيل الدخول
+                                    </Link>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

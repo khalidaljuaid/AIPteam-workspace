@@ -1,186 +1,149 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface User {
     id: string
-    name: string | null
-    firstName: string | null
-    lastName: string | null
+    firstName: string
+    lastName: string
     email: string
     role: string
-    department: string | null
-    createdAt: string
+    department: string
 }
 
 export default function UsersPage() {
     const [users, setUsers] = useState<User[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
     const router = useRouter()
 
     useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const res = await fetch('/api/users')
+                if (!res.ok) throw new Error('فشل في جلب البيانات')
+                const data = await res.json()
+                setUsers(data)
+            } catch (err) {
+                setError('حدث خطأ أثناء تحميل المستخدمين')
+            } finally {
+                setLoading(false)
+            }
+        }
+
         fetchUsers()
     }, [])
 
-    const fetchUsers = async () => {
-        try {
-            const res = await fetch('/api/users')
-            if (!res.ok) throw new Error('Failed to fetch users')
-            const data = await res.json()
-            setUsers(data)
-        } catch (err) {
-            setError('فشل تحميل المستخدمين')
-            console.error(err)
-        } finally {
-            setLoading(false)
+    const filteredUsers = users.filter(user =>
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+    const getRoleBadgeColor = (role: string) => {
+        switch (role) {
+            case 'ADMIN': return 'bg-red-500/20 text-red-200 border-red-500/30'
+            case 'LEADER': return 'bg-purple-500/20 text-purple-200 border-purple-500/30'
+            default: return 'bg-blue-500/20 text-blue-200 border-blue-500/30'
         }
     }
 
-    const handleRoleChange = async (userId: string, newRole: string) => {
-        try {
-            const res = await fetch(`/api/users/${userId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ role: newRole }),
-            })
-
-            if (!res.ok) throw new Error('Failed to update role')
-
-            // Update local state
-            setUsers(users.map(user =>
-                user.id === userId ? { ...user, role: newRole } : user
-            ))
-        } catch (err) {
-            alert('فشل تحديث الدور')
-            console.error(err)
+    const getDepartmentName = (deptId: string) => {
+        const depts: { [key: string]: string } = {
+            'content': 'المحتوى والإبداع',
+            'technical': 'التقنية والبرمجة',
+            'media': 'الإعلام والتواصل',
+            'design': 'التصميم والجرافيك',
+            'executive': 'الإدارة التنفيذية'
         }
+        return depts[deptId] || deptId
     }
 
-    const handleDepartmentChange = async (userId: string, newDept: string) => {
-        try {
-            const res = await fetch(`/api/users/${userId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ department: newDept }),
-            })
-
-            if (!res.ok) throw new Error('Failed to update department')
-
-            // Update local state
-            setUsers(users.map(user =>
-                user.id === userId ? { ...user, department: newDept } : user
-            ))
-        } catch (err) {
-            alert('فشل تحديث القسم')
-            console.error(err)
-        }
-    }
-
-    const handleDelete = async (userId: string) => {
-        if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return
-
-        try {
-            const res = await fetch(`/api/users/${userId}`, {
-                method: 'DELETE',
-            })
-
-            if (!res.ok) throw new Error('Failed to delete user')
-
-            // Update local state
-            setUsers(users.filter(user => user.id !== userId))
-        } catch (err) {
-            alert('فشل حذف المستخدم')
-            console.error(err)
-        }
-    }
-
-    if (loading) return <div className="p-8 text-center">جاري التحميل...</div>
+    if (loading) return <div className="text-center text-white py-10">جاري التحميل...</div>
 
     return (
-        <div className="space-y-6 p-6">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">إدارة المستخدمين</h1>
-                <div className="text-sm text-muted-foreground">
-                    عدد المستخدمين: {users.length}
+        <div className="space-y-6 animate-fade-in">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">إدارة المستخدمين</h1>
+                    <p className="text-white/60">إدارة صلاحيات وأعضاء الفريق</p>
+                </div>
+
+                <div className="flex gap-3">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="بحث عن عضو..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 pl-10 text-white focus:border-brand-primary w-64"
+                        />
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40">🔍</span>
+                    </div>
+                    <button className="gradient-purple text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all">
+                        + إضافة عضو
+                    </button>
                 </div>
             </div>
 
-            {error && (
-                <div className="bg-destructive/10 text-destructive p-4 rounded-md">
-                    {error}
-                </div>
-            )}
-
-            <div className="card overflow-hidden">
+            {/* Users Table Card */}
+            <div className="glass rounded-2xl overflow-hidden shadow-xl">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-right">
-                        <thead className="bg-muted/50">
-                            <tr>
-                                <th className="p-4 font-medium">الاسم</th>
-                                <th className="p-4 font-medium">البريد الإلكتروني</th>
-                                <th className="p-4 font-medium">الدور</th>
-                                <th className="p-4 font-medium">القسم</th>
-                                <th className="p-4 font-medium">تاريخ التسجيل</th>
-                                <th className="p-4 font-medium">إجراءات</th>
+                    <table className="w-full">
+                        <thead>
+                            <tr className="bg-white/5 border-b border-white/10">
+                                <th className="text-right py-4 px-6 text-white/60 font-medium">العضو</th>
+                                <th className="text-right py-4 px-6 text-white/60 font-medium">البريد الإلكتروني</th>
+                                <th className="text-right py-4 px-6 text-white/60 font-medium">القسم</th>
+                                <th className="text-right py-4 px-6 text-white/60 font-medium">الدور</th>
+                                <th className="text-right py-4 px-6 text-white/60 font-medium">الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-border">
-                            {users.map((user) => (
-                                <tr key={user.id} className="hover:bg-muted/50 transition-colors">
-                                    <td className="p-4">
-                                        <div className="font-medium">
-                                            {user.firstName} {user.lastName}
+                        <tbody className="divide-y divide-white/5">
+                            {filteredUsers.map((user) => (
+                                <tr key={user.id} className="hover:bg-white/5 transition-colors">
+                                    <td className="py-4 px-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center text-brand-purple-200 font-bold border border-brand-primary/30">
+                                                {user.firstName[0]}
+                                            </div>
+                                            <span className="text-white font-medium">{user.firstName} {user.lastName}</span>
                                         </div>
-                                        <div className="text-xs text-muted-foreground">
-                                            {user.name}
+                                    </td>
+                                    <td className="py-4 px-6 text-white/80">{user.email}</td>
+                                    <td className="py-4 px-6">
+                                        <span className="bg-white/5 px-3 py-1 rounded-full text-sm text-white/80 border border-white/10">
+                                            {getDepartmentName(user.department)}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 px-6">
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getRoleBadgeColor(user.role)}`}>
+                                            {user.role}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 px-6">
+                                        <div className="flex gap-2">
+                                            <button className="p-2 hover:bg-white/10 rounded-lg text-blue-400 transition-colors" title="تعديل">
+                                                ✏️
+                                            </button>
+                                            <button className="p-2 hover:bg-white/10 rounded-lg text-red-400 transition-colors" title="حذف">
+                                                🗑️
+                                            </button>
                                         </div>
-                                    </td>
-                                    <td className="p-4 font-mono text-sm">{user.email}</td>
-                                    <td className="p-4">
-                                        <select
-                                            value={user.role}
-                                            onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                            className="bg-background border border-input rounded px-2 py-1 text-sm focus:ring-2 focus:ring-primary"
-                                        >
-                                            <option value="MEMBER">عضو (Member)</option>
-                                            <option value="LEADER">قائد (Leader)</option>
-                                            <option value="ADMIN">مدير (Admin)</option>
-                                        </select>
-                                    </td>
-                                    <td className="p-4">
-                                        <select
-                                            value={user.department || ''}
-                                            onChange={(e) => handleDepartmentChange(user.id, e.target.value)}
-                                            className="bg-background border border-input rounded px-2 py-1 text-sm focus:ring-2 focus:ring-primary w-40"
-                                        >
-                                            <option value="">غير محدد</option>
-                                            <option value="CREATIVITY">إدارة الابداع</option>
-                                            <option value="CONTENT_PUBLISHING">إدارة المحتوى والنشر</option>
-                                            <option value="ACTIVITIES">إدارة الأنشطة والفعاليات</option>
-                                            <option value="PUBLIC_RELATIONS">إدارة العلاقات العامة</option>
-                                            <option value="EDUCATIONAL_CONTENT">إدارة المحتوى التعليمي</option>
-                                            <option value="PROJECTS">إدارة المشاريع</option>
-                                            <option value="FOLLOW_UP">إدارة المتابعة والتطوير</option>
-                                        </select>
-                                    </td>
-                                    <td className="p-4 text-sm text-muted-foreground">
-                                        {new Date(user.createdAt).toLocaleDateString('ar-SA')}
-                                    </td>
-                                    <td className="p-4">
-                                        <button
-                                            onClick={() => handleDelete(user.id)}
-                                            className="text-destructive hover:text-destructive/80 text-sm font-medium"
-                                        >
-                                            حذف
-                                        </button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
+
+                {filteredUsers.length === 0 && (
+                    <div className="text-center py-12 text-white/40">
+                        لا يوجد مستخدمين مطابقين للبحث
+                    </div>
+                )}
             </div>
         </div>
     )
