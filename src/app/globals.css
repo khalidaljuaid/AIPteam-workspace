@@ -2,87 +2,15 @@
 @import '@fontsource/cairo/arabic.css';
 @import '@fontsource/tajawal/arabic.css';
 
-/* Import Bootstrap Core */
-@import 'bootstrap/dist/css/bootstrap.min.css';
-
-/* Custom Dark Purple Theme Overrides */
-:root {
-  --bs-body-bg: #151521;
-  --bs-body-color: #ffffff;
-  --bs-primary: #80519F;
-  --bs-primary-rgb: 128, 81, 159;
-  --bs-secondary: #351962;
-  --bs-secondary-rgb: 53, 25, 98;
-  --bs-light: #DEDEDD;
-  --bs-dark: #151521;
-  --bs-border-color: rgba(255, 255, 255, 0.1);
-}
-
+/* RTL Direction */
 body {
-  background: linear-gradient(135deg, #351962 0%, #151521 100%) !important;
-  background-attachment: fixed !important;
-  color: #ffffff !important;
   direction: rtl !important;
-  font-family: 'Cairo', 'Tajawal', sans-serif !important;
-  min-height: 100vh;
+  font-family: 'Cairo', 'Tajawal', Inter, sans-serif !important;
 }
 
-* {
-  border-color: rgba(255, 255, 255, 0.1);
-  font-family: 'Cairo', 'Tajawal', sans-serif;
-}
-
-/* Logo inversion for dark theme */
-img[alt="Logo"],
-img[src*="logo"],
-img[src*="LOGO"] {
-  filter: brightness(0) invert(1);
-}
-
-/* Bootstrap overrides for dark theme */
-.card {
-  background-color: rgba(30, 30, 45, 0.8) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
-}
-
-.btn-primary {
-  background-color: #80519F !important;
-  border-color: #80519F !important;
-}
-
-.btn-primary:hover {
-  background-color: #351962 !important;
-  border-color: #351962 !important;
-}
-
-.navbar,
-.sidebar,
-.aside {
-  background-color: rgba(30, 30, 45, 0.9) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.table {
-  color: #ffffff !important;
-}
-
-.table th {
-  background-color: rgba(128, 81, 159, 0.2) !important;
-  color: #ffffff !important;
-}
-
-.form-control,
-.form-select {
-  background-color: rgba(30, 30, 45, 0.8) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
-}
-
-.form-control:focus,
-.form-select:focus {
-  background-color: rgba(30, 30, 45, 0.9) !important;
-  border-color: #80519F !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 0 0.25rem rgba(128, 81, 159, 0.25) !important;
+/* User's logo (replace Metronic logo) */
+img[src*="/media/logos/"] {
+  content: url('/LOGO.png') !important;
+  filter: brightness(0) invert(1) !important;
+  max-height: 25px !important;
 }

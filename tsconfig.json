@@ -38,6 +38,7 @@
   ],
   "exclude": [
     "node_modules",
-    "prisma"
+    "prisma",
+    "metronic_react_v8.2.0_demo2"
   ]
 }
